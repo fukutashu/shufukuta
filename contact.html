@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact / Shu Fukuta</title>
+  <meta name="description" content="Contact — Shu Fukuta / 福田 周" />
+
+  <style>
+    :root{
+      /* =========================
+         全体トーン（blog.html と同一）
+         ========================= */
+
+      --bg:#f2f0ea;
+
+      /* 文字色：真っ黒・真っ白は使わない */
+      --ink:   rgba(16,22,22,.88); /* 見出し・強調 */
+      --text:  rgba(16,22,22,.82); /* 本文 */
+      --muted: rgba(16,22,22,.58); /* 補助 */
+      --faint: rgba(16,22,22,.40); /* フッター */
+
+      /* アクセント（hover / active） */
+      --accent:  rgba(64,92,92,.78);
+      --accent2: rgba(64,92,92,.42);
+
+      /* パネル色：青みがかった無彩色グレー＋透明
+         → 白すぎると感じたら最後の .18 を下げる（.14 など） */
+      --panel:  rgba(230,236,242,.18);
+
+      /* 境界線は極薄 */
+      --line2: rgba(16,22,22,.06);
+
+      --max:900px;
+      --pad:clamp(16px,3vw,28px);
+      --r:14px;
+
+      /* フォント（外部読み込みなし） */
+      --sans:-apple-system,BlinkMacSystemFont,
+        "SF Pro Text","SF Pro Display",
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+
+      --brand:-apple-system,BlinkMacSystemFont,
+        "SF Pro Display","SF Pro Text",
+        "Helvetica Neue","Helvetica","Arial",
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,
+        Consolas,"Liberation Mono","Noto Sans Mono",monospace;
+
+      /* 下だけ白くするスクラム開始位置（ヘッダー高さ） */
+      --scrimTop: 140px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background: var(--bg);
+
+      /* 背景画像（blog と同一） */
+      background-image:url("img/bg-board.jpg");
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      text-rendering:geometricPrecision;
+    }
+
+    /* =========================
+       上：背景を見せる薄いベール（blog と同一）
+       ========================= */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 520px at 60% 18%,
+          rgba(255,255,255,.06),
+          rgba(242,240,234,.20) 70%
+        ),
+        linear-gradient(to bottom,
+          rgba(255,255,255,.03),
+          rgba(242,240,234,.26)
+        );
+      z-index:-2;
+    }
+
+    /* =========================
+       下：コンテンツ領域だけ白く（blog と同一）
+       ========================= */
+    .content-scrim{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      top: var(--scrimTop);
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom,
+          rgba(242,240,234,.10),
+          rgba(242,240,234,.78) 22%,
+          rgba(242,240,234,.88) 100%
+        );
+      z-index:-1;
+    }
+
+    /* =========================
+       極薄ノイズ（2chの空気感）
+       ========================= */
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(to bottom,
+          rgba(16,22,22,.06),
+          rgba(16,22,22,.06) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 7px
+        );
+      opacity:.02;
+      mix-blend-mode:multiply;
+      z-index:-1;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ color:var(--accent); }
+    ::selection{ background: rgba(64,92,92,.14); }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: calc(var(--pad)*1.2) var(--pad) calc(var(--pad)*2);
+      position:relative;
+    }
+
+    /* =========================
+       header / nav（index・blog と完全共通）
+       ========================= */
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 0 10px;
+      border-bottom:1px solid var(--line2);
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .brand .name{
+      font-family:var(--brand);
+      font-size:clamp(18px,2.2vw,22px);
+      font-weight:520;
+      letter-spacing:.035em;
+      line-height:1.15;
+      color:var(--ink);
+    }
+    .brand .sub{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.02em;
+    }
+
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+    }
+    nav a{
+      position:relative;
+      padding:2px 0;
+      letter-spacing:.02em;
+      color:var(--muted);
+    }
+    nav a:not(:last-child)::after{
+      content:"/";
+      margin-left:10px;
+      color: rgba(16,22,22,.22);
+    }
+    nav a.active{
+      color:var(--ink);
+    }
+    nav a.active::before{
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:-4px;
+      height:1px;
+      background: linear-gradient(to right,
+        rgba(64,92,92,0),
+        rgba(64,92,92,.55),
+        rgba(64,92,92,0)
+      );
+    }
+    nav a:hover{ color:var(--ink); }
+
+    /* =========================
+       panel（blog と同一トーン）
+       ========================= */
+    .panel{
+      margin-top:22px;
+      background:var(--panel);
+      border-radius:var(--r);
+      border:none;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 18px 46px rgba(0,0,0,.055);
+      position:relative;
+      overflow:hidden;
+      padding: calc(var(--pad)*1.1);
+    }
+
+    /* 際だけを自然に溶かす（blog と同一） */
+    .panel::before{
+      content:"";
+      position:absolute; inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(to right,
+          rgba(242,240,234,.58),
+          rgba(242,240,234,0) 18px,
+          rgba(242,240,234,0) calc(100% - 18px),
+          rgba(242,240,234,.58)
+        ),
+        linear-gradient(to bottom,
+          rgba(242,240,234,.58),
+          rgba(242,240,234,0) 18px,
+          rgba(242,240,234,0) calc(100% - 18px),
+          rgba(242,240,234,.58)
+        );
+      opacity:.36;
+    }
+
+    .panel > *{
+      position:relative;
+      z-index:1;
+    }
+
+    /* =========================
+       contact 中身
+       ========================= */
+    .item{
+      margin-bottom:20px;
+    }
+    .label{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .value{
+      font-size:15px;
+      letter-spacing:.01em;
+      color:var(--ink);
+    }
+
+    footer{
+      margin-top:26px;
+      padding-top:12px;
+      border-top:1px solid var(--line2);
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--faint);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    @media (max-width: 900px){
+      :root{ --scrimTop: 160px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content-scrim" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="name">Shu Fukuta / 福田 周</div>
+        <div class="sub">artist site / contact</div>
+      </div>
+      <nav>
+        <a href="index.html">cv</a>
+        <a href="works.html">works</a>
+        <a href="blog.html">blog</a>
+        <a class="active" href="contact.html">contact</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <div class="item">
+        <div class="label">email</div>
+        <div class="value">
+          <a href="mailto:yourmail@example.com">yourmail@example.com</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="label">instagram</div>
+        <div class="value">
+          <a href="https://instagram.com/yourid" target="_blank">@yourid</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© Shu Fukuta</div>
+      <div>contact</div>
+    </footer>
+  </div>
+</body>
+</html>

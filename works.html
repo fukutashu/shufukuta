@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Works / Shu Fukuta</title>
+  <meta name="description" content="Works — Shu Fukuta / 福田 周" />
+
+  <style>
+    :root{
+      --bg:#f4f2ee;
+      --text:rgba(10,10,10,.90);
+      --muted:rgba(10,10,10,.62);
+      --faint:rgba(10,10,10,.42);
+
+      /* ✅ 全体パネルの“ガラス感”をblog/contact寄せで濃く */
+      --paper:rgba(255,255,255,.23);
+
+      --line:rgba(0,0,0,.10);
+      --line2:rgba(0,0,0,.055);
+
+      --accent:rgba(60,92,78,.78);
+      --accent2:rgba(60,92,78,.42);
+
+      --max:1080px;
+      --pad:clamp(16px,3vw,28px);
+      --r:14px;
+
+      --sans: ui-sans-serif, system-ui, -apple-system,
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono","Noto Sans Mono", monospace;
+
+      --scrimTop: 140px;
+      --ink: rgba(16,22,22,.88);
+
+      --brand: -apple-system, BlinkMacSystemFont,
+        "SF Pro Display","SF Pro Text",
+        "Helvetica Neue","Helvetica","Arial",
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:var(--sans);
+      background: var(--bg);
+      background-image: url("img/bg-board.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 520px at 60% 18%,
+          rgba(255,255,255,.10),
+          rgba(244,242,238,.36) 70%
+        ),
+        linear-gradient(to bottom,
+          rgba(255,255,255,.06),
+          rgba(244,242,238,.38)
+        );
+      z-index:-2;
+    }
+
+    .content-scrim{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      top: var(--scrimTop);
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom,
+          rgba(244,242,238,.10),
+          rgba(244,242,238,.55) 22%,
+          rgba(244,242,238,.70) 100%
+        );
+      z-index:-1;
+    }
+
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(to bottom,
+          rgba(0,0,0,.05),
+          rgba(0,0,0,.05) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 7px
+        );
+      opacity:.035;
+      mix-blend-mode:multiply;
+      z-index:-1;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ color:var(--accent); }
+    ::selection{ background: rgba(60,92,78,.16); }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: calc(var(--pad)*1.2) var(--pad) calc(var(--pad)*2);
+      position:relative;
+    }
+
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 0 10px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .brand .name{
+      font-family: var(--brand);
+      font-size:clamp(18px,2.2vw,22px);
+      font-weight:520;
+      letter-spacing:.035em;
+      line-height:1.15;
+      color: var(--ink);
+    }
+    .brand .sub{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.2;
+      letter-spacing:.02em;
+    }
+
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+    }
+    nav a{
+      position:relative;
+      padding:2px 0;
+      letter-spacing:.02em;
+      color:var(--muted);
+    }
+    nav a:not(:last-child)::after{
+      content:"/";
+      margin-left:10px;
+      color: rgba(16,22,22,.22);
+    }
+    nav a.active{ color: var(--ink); }
+    nav a.active::before{
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:-4px;
+      height:1px;
+      background: linear-gradient(to right,
+        rgba(60,92,78,0),
+        rgba(60,92,78,.55),
+        rgba(60,92,78,0)
+      );
+    }
+    nav a:hover{ color: var(--ink); }
+
+    .panel{
+      margin-top:18px;
+      background: var(--paper);
+      /* ✅ 少しだけ輪郭を強めて読みやすく */
+      border: 1px solid rgba(0,0,0,.065);
+      border-radius: var(--r);
+      backdrop-filter: blur(3px);
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.06),
+        0 1px 0 rgba(255,255,255,.55) inset;
+    }
+    .panel .in{ padding: calc(var(--pad)*1.1); }
+
+    .topbar{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .title{
+      margin:0;
+      font-size: clamp(18px, 2.6vw, 22px);
+      font-weight: 560;
+      letter-spacing:.02em;
+    }
+    .hint{
+      margin:0;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin: 10px 0 18px;
+    }
+    .chip{
+      appearance:none;
+      border:1px solid rgba(0,0,0,.045);
+      background: rgba(255,255,255,.16);
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor:pointer;
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
+    }
+    .chip:hover{ border-color: rgba(0,0,0,.10); color: rgba(10,10,10,.78); }
+    .chip[aria-pressed="true"]{
+      border-color: var(--accent2);
+      color: var(--accent);
+      background: rgba(255,255,255,.28);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .work{
+      grid-column: span 6;
+      border:1px solid rgba(0,0,0,.045);
+      border-radius: 14px;
+      overflow:hidden;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 1px 0 rgba(255,255,255,.35) inset;
+    }
+    @media (max-width: 900px){
+      :root{ --scrimTop: 168px; }
+      .work{ grid-column: span 12; }
+    }
+
+    .thumb{
+      position:relative;
+      display:block;
+      width:100%;
+      aspect-ratio: 4 / 3;
+      background: rgba(0,0,0,.03);
+      cursor: zoom-in;
+      overflow:hidden;
+    }
+    .thumb img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+      filter: saturate(.92) contrast(1.02);
+      transform: scale(1.001);
+    }
+    .thumb::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,.38), transparent 60%);
+      opacity:.18;
+      pointer-events:none;
+    }
+
+    .cap{ padding: 12px 14px 14px; }
+    .cap h3{
+      margin:0 0 6px;
+      font-size: 14px;
+      font-weight: 560;
+      letter-spacing:.02em;
+    }
+    .meta{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px 12px;
+      margin-bottom: 10px;
+    }
+    .desc{
+      margin:0;
+      font-size: 13px;
+      line-height: 1.8;
+      color: rgba(10,10,10,.80);
+      white-space: pre-wrap;
+    }
+    .tags{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .tag{
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(10,10,10,.55);
+      border: 1px solid rgba(0,0,0,.045);
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+    }
+
+    .lb{
+      position: fixed;
+      inset: 0;
+      display:none;
+      place-items:center;
+      padding: 16px;
+      background: rgba(0,0,0,.72);
+      z-index: 50;
+    }
+    .lb[open]{ display:grid; }
+
+    /* ✅ スクロールできるlightboxにする */
+    .lb__panel{
+      width:min(1100px, 100%);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(12,12,13,.40);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      backdrop-filter: blur(6px);
+
+      max-height: 92vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .lb__scroll{
+      flex: 1 1 auto;
+      overflow-y: auto;
+    }
+
+    .lb__media{
+      width:100%;
+      background: rgba(255,255,255,.02);
+    }
+    .lb__media img,
+    .lb__media video,
+    .lb__media iframe{
+      width:100%;
+      display:block;
+      border:0;
+    }
+    .lb__media iframe{
+      aspect-ratio: 16 / 9;
+      height:auto;
+    }
+    /* 画像が複数枚のときは縦に積む（展示資料束っぽい） */
+    .lb__media img{
+      height:auto;
+    }
+    .lb__media img + img{
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .lb__bar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+    .lb__txt{ min-width:0; color: rgba(255,255,255,.88); }
+    .lb__txt .t{ margin:0 0 6px; font-size: 13px; font-weight: 560; }
+    .lb__txt .m{ margin:0; font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,.66); }
+
+    .lb__desc{
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.85;
+      color: rgba(255,255,255,.82);
+      white-space: pre-wrap;
+
+      /* ✅ ここは制限せず、パネル自体をスクロールさせる */
+      max-height: none;
+      overflow: visible;
+      padding-right: 0;
+    }
+
+    .lb__actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex:0 0 auto;
+    }
+
+    .lb__btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.86);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .lb__btn:hover{ border-color: rgba(255,255,255,.30); }
+
+    footer{
+      margin-top:26px;
+      padding-top:12px;
+      border-top:1px solid rgba(0,0,0,.06);
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--faint);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content-scrim" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="name">Shu Fukuta / 福田 周</div>
+        <div class="sub">artist site / works</div>
+      </div>
+      <nav>
+        <a href="index.html">cv</a>
+        <a class="active" href="works.html">works</a>
+        <a href="blog.html">blog</a>
+        <a href="contact.html">contact</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <div class="in">
+        <div class="topbar">
+          <h1 class="title">Works</h1>
+          <p class="hint">edit: data/works.json</p>
+        </div>
+
+        <div class="chips" id="chips"></div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© Shu Fukuta</div>
+      <div>works</div>
+    </footer>
+  </div>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="viewer">
+    <div class="lb__panel">
+      <div class="lb__scroll">
+        <div class="lb__media" id="lbMedia"></div>
+        <div class="lb__bar">
+          <div class="lb__txt">
+            <p class="t" id="lbTitle"></p>
+            <p class="m" id="lbMeta"></p>
+            <div class="lb__desc" id="lbDesc"></div>
+          </div>
+
+          <div class="lb__actions">
+            <a class="lb__btn" id="lbLink" href="#" target="_blank" rel="noopener" style="display:none;">link</a>
+            <button class="lb__btn" id="lbClose" type="button">close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadWorks(){
+      const url = "data/works.json?v=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
+      if(!res.ok) throw new Error("Failed to load works.json: " + res.status);
+      return await res.json();
+    }
+
+    (async ()=>{
+      let data;
+      try{
+        data = await loadWorks();
+      }catch(err){
+        console.error(err);
+        const gridEl = document.getElementById("grid");
+        gridEl.innerHTML =
+          '<div style="grid-column:span 12; font-family:var(--mono); color:var(--muted); padding:10px;">' +
+          'could not load <b>data/works.json</b> (check file path / Live Server). ' +
+          '</div>';
+        return;
+      }
+
+      const works = data.works || [];
+
+      const chipsEl = document.getElementById("chips");
+      const gridEl  = document.getElementById("grid");
+
+      const lb = document.getElementById("lb");
+      const lbMedia = document.getElementById("lbMedia");
+      const lbTitle = document.getElementById("lbTitle");
+      const lbMeta  = document.getElementById("lbMeta");
+      const lbDesc  = document.getElementById("lbDesc");
+      const lbClose = document.getElementById("lbClose");
+      const lbLink  = document.getElementById("lbLink");
+
+      const tagSet = new Set();
+      works.forEach(w => (w.tags||[]).forEach(t => tagSet.add(t)));
+      const tags = ["all", ...Array.from(tagSet).sort((a,b)=>a.localeCompare(b))];
+      let activeTag = "all";
+
+      function renderChips(){
+        chipsEl.innerHTML = "";
+        tags.forEach(t=>{
+          const b = document.createElement("button");
+          b.className = "chip";
+          b.type = "button";
+          b.textContent = t;
+          b.setAttribute("aria-pressed", String(t===activeTag));
+          b.addEventListener("click", ()=>{
+            activeTag = t;
+            renderChips();
+            renderGrid();
+          });
+          chipsEl.appendChild(b);
+        });
+      }
+
+      function match(w){
+        if(activeTag==="all") return true;
+        return (w.tags||[]).includes(activeTag);
+      }
+
+      function openLB(w){
+        lb.setAttribute("open","");
+        lbMedia.innerHTML = "";
+
+        // media priority:
+        // youtube > video > images[] > image
+        if(w.youtube){
+          const iframe = document.createElement("iframe");
+          iframe.src = w.youtube;
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+          iframe.allowFullscreen = true;
+          lbMedia.appendChild(iframe);
+
+        }else if(w.video){
+          const v = document.createElement("video");
+          v.controls = true;
+          v.playsInline = true;
+          v.preload = "none";
+          v.poster = w.image || "";
+          v.muted = true;
+
+          const s = document.createElement("source");
+          s.src = w.video;
+          s.type = "video/mp4";
+          v.appendChild(s);
+
+          lbMedia.appendChild(v);
+
+        }else if(Array.isArray(w.images) && w.images.length){
+          w.images.forEach(src=>{
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = w.title || "";
+            img.loading = "lazy";
+            img.decoding = "async";
+            lbMedia.appendChild(img);
+          });
+
+        }else{
+          const img = document.createElement("img");
+          img.src = w.image;
+          img.alt = w.title || "";
+          img.decoding = "async";
+          lbMedia.appendChild(img);
+        }
+
+        lbTitle.textContent = w.title || "";
+        lbMeta.textContent  = [w.year, w.medium, w.size].filter(Boolean).join(" / ");
+        lbDesc.textContent  = w.note || w.desc || "";
+
+        if(w.link){
+          lbLink.href = w.link;
+          lbLink.style.display = "inline-flex";
+          lbLink.textContent = "link";
+        }else{
+          lbLink.style.display = "none";
+          lbLink.href = "#";
+        }
+
+        // 背景側だけ止める（中身はlb__scrollがスクロール担当）
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLB(){
+        lbMedia.innerHTML = "";
+        lbDesc.textContent = "";
+        lb.removeAttribute("open");
+        document.body.style.overflow = "";
+      }
+
+      lbClose.addEventListener("click", closeLB);
+      lb.addEventListener("click", (e)=>{ if(e.target === lb) closeLB(); });
+      window.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && lb.hasAttribute("open")) closeLB(); });
+
+      function renderGrid(){
+        gridEl.innerHTML = "";
+        works.filter(match).forEach((w)=>{
+          const card = document.createElement("article");
+          card.className = "work";
+
+          const a = document.createElement("a");
+          a.className = "thumb";
+          a.href = "javascript:void(0)";
+          a.addEventListener("click", ()=>openLB(w));
+
+          const img = document.createElement("img");
+          img.src = w.image;
+          img.alt = w.title || "";
+          img.loading = "lazy";
+          img.decoding = "async";
+          a.appendChild(img);
+
+          const cap = document.createElement("div");
+          cap.className = "cap";
+
+          const h = document.createElement("h3");
+          h.textContent = w.title || "(untitled)";
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          [w.year, w.medium, w.size].filter(Boolean).forEach(v=>{
+            const s = document.createElement("span");
+            s.textContent = v;
+            meta.appendChild(s);
+          });
+
+          const desc = document.createElement("p");
+          desc.className = "desc";
+          desc.textContent = w.desc || "";
+
+          const tagsBox = document.createElement("div");
+          tagsBox.className = "tags";
+          (w.tags||[]).forEach(t=>{
+            const tg = document.createElement("span");
+            tg.className = "tag";
+            tg.textContent = t;
+            tagsBox.appendChild(tg);
+          });
+
+          cap.appendChild(h);
+          cap.appendChild(meta);
+          if((w.desc||"").trim()) cap.appendChild(desc);
+          if((w.tags||[]).length) cap.appendChild(tagsBox);
+
+          card.appendChild(a);
+          card.appendChild(cap);
+          gridEl.appendChild(card);
+        });
+      }
+
+      renderChips();
+      renderGrid();
+    })();
+  </script>
+</body>
+</html>
