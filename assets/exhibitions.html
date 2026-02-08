@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Exhibitions / Shu Fukuta</title>
+  <meta name="description" content="Exhibitions — Shu Fukuta / 福田 周" />
+
+  <style>
+    :root{
+      --bg:#f2f0ea;
+      --ink:   rgba(16,22,22,.88);
+      --text:  rgba(16,22,22,.82);
+      --muted: rgba(16,22,22,.58);
+      --faint: rgba(16,22,22,.40);
+
+      --accent:  rgba(64,92,92,.78);
+      --accent2: rgba(64,92,92,.42);
+
+      --panel:   rgba(230,236,242,.18);
+      --panel2:  rgba(230,236,242,.10);
+
+      --line:  rgba(16,22,22,.12);
+      --line2: rgba(16,22,22,.06);
+
+      --max:1080px;
+      --pad:clamp(16px,3vw,28px);
+      --r:14px;
+
+      --sans:
+        -apple-system, BlinkMacSystemFont,
+        "SF Pro Text","SF Pro Display",
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+
+      --brand:
+        -apple-system, BlinkMacSystemFont,
+        "SF Pro Display","SF Pro Text",
+        "Helvetica Neue","Helvetica","Arial",
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+
+      --mono:
+        ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono","Noto Sans Mono", monospace;
+
+      --scrimTop: 140px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:var(--sans);
+      background: var(--bg);
+
+      background-image:url("img/bg-board.jpg");
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      text-rendering:geometricPrecision;
+    }
+
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 520px at 60% 18%,
+          rgba(255,255,255,.10),
+          rgba(244,242,238,.36) 70%
+        ),
+        linear-gradient(to bottom,
+          rgba(255,255,255,.06),
+          rgba(244,242,238,.38)
+        );
+      z-index:-2;
+    }
+
+    .content-scrim{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      top: var(--scrimTop);
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom,
+          rgba(244,242,238,.10),
+          rgba(244,242,238,.55) 22%,
+          rgba(244,242,238,.70) 100%
+        );
+      z-index:-1;
+    }
+
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(to bottom,
+          rgba(0,0,0,.05),
+          rgba(0,0,0,.05) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 7px
+        );
+      opacity:.035;
+      mix-blend-mode:multiply;
+      z-index:-1;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ color:var(--accent); }
+    ::selection{ background: rgba(60,92,78,.16); }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: calc(var(--pad)*1.2) var(--pad) calc(var(--pad)*2);
+      position:relative;
+    }
+
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 0 10px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .brand{ display:flex; flex-direction:column; gap:4px; }
+    .brand .name{
+      font-family: var(--brand);
+      font-size:clamp(18px,2.2vw,22px);
+      font-weight:520;
+      letter-spacing:.035em;
+      line-height:1.15;
+      color: var(--ink);
+    }
+    .brand .sub{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.2;
+      letter-spacing:.02em;
+    }
+
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+    }
+    nav a{
+      position:relative;
+      padding:2px 0;
+      letter-spacing:.02em;
+      color:var(--muted);
+    }
+    nav a:not(:last-child)::after{
+      content:"/";
+      margin-left:10px;
+      color: rgba(16,22,22,.22);
+    }
+    nav a.active{ color: var(--ink); }
+
+    .panel{
+      margin-top: 18px;
+      border:1px solid rgba(16,22,22,.10);
+      border-radius: var(--r);
+      background: linear-gradient(to bottom,
+        rgba(255,255,255,.18),
+        rgba(255,255,255,.06)
+      );
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.06),
+        0 1px 0 rgba(255,255,255,.55) inset;
+    }
+    .panel .in{ padding: calc(var(--pad)*1.1); }
+
+    .topbar{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .title{
+      margin:0;
+      font-size: clamp(18px, 2.6vw, 22px);
+      font-weight: 560;
+      letter-spacing:.02em;
+    }
+    .hint{
+      margin:0;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top: 14px;
+    }
+    .item{
+      border:1px solid var(--line2);
+      background: rgba(255,255,255,.78);
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+    }
+    .row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .t{
+      margin:0;
+      color: var(--ink);
+      font-weight: 560;
+      letter-spacing:.01em;
+    }
+    .meta{
+      margin:6px 0 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .note{
+      margin:10px 0 0;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(16,22,22,.76);
+      white-space: pre-wrap;
+    }
+    .link{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    footer{
+      margin-top: 18px;
+      padding: 16px 0 6px;
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      border-top:1px solid var(--line2);
+    }
+  </style>
+</head>
+<body>
+  <div class="content-scrim" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="name">Shu Fukuta / 福田 周</div>
+        <div class="sub">artist site / exhibitions</div>
+      </div>
+      <nav>
+        <a href="index.html">cv</a>
+        <a href="works.html">works</a>
+        <a href="blog.html">blog</a>
+        <a class="active" href="exhibitions.html">exhibitions</a>
+        <a href="contact.html">contact</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <div class="in">
+        <div class="topbar">
+          <h1 class="title">Exhibitions</h1>
+          <p class="hint">edit: data/exhibitions.json</p>
+        </div>
+
+        <div class="list" id="list"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© Shu Fukuta</div>
+      <div>exhibitions</div>
+    </footer>
+  </div>
+
+  <script>
+    async function loadExhibitions(){
+      const url = "data/exhibitions.json?v=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
+      if(!res.ok) throw new Error("Failed to load exhibitions.json: " + res.status);
+      return await res.json();
+    }
+
+    function fmtRange(start, end){
+      const s = (start||"").trim();
+      const e = (end||"").trim();
+      if(!s && !e) return "";
+      if(s && !e) return s;
+      if(!s && e) return e;
+      return s + " — " + e;
+    }
+
+    (async ()=>{
+      const listEl = document.getElementById("list");
+      let data;
+      try{
+        data = await loadExhibitions();
+      }catch(err){
+        console.error(err);
+        listEl.innerHTML = '<div style="font-family:var(--mono); color:var(--muted); padding:10px;">could not load <b>data/exhibitions.json</b></div>';
+        return;
+      }
+
+      const items = (data.exhibitions || []).slice();
+
+      // sort by start desc (YYYY-MM-DD)
+      items.sort((a,b)=> (String(b.start||"")).localeCompare(String(a.start||"")));
+
+      listEl.innerHTML = "";
+      items.forEach(x=>{
+        const card = document.createElement("article");
+        card.className = "item";
+
+        const row = document.createElement("div");
+        row.className = "row";
+
+        const left = document.createElement("div");
+
+        const title = document.createElement("p");
+        title.className = "t";
+        title.textContent = x.title || "(untitled)";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        const range = fmtRange(x.start, x.end);
+        const place = [x.venue, x.city, x.country].filter(Boolean).join(" / ");
+
+        [x.type, range, place].filter(Boolean).forEach(v=>{
+          const s = document.createElement("span");
+          s.textContent = v;
+          meta.appendChild(s);
+        });
+
+        left.appendChild(title);
+        left.appendChild(meta);
+
+        row.appendChild(left);
+
+        if(x.link){
+          const a = document.createElement("a");
+          a.className = "link";
+          a.href = x.link;
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.textContent = "link";
+          row.appendChild(a);
+        }
+
+        card.appendChild(row);
+
+        if(x.note){
+          const note = document.createElement("div");
+          note.className = "note";
+          note.textContent = x.note;
+          card.appendChild(note);
+        }
+
+        listEl.appendChild(card);
+      });
+    })();
+  </script>
+</body>
+</html>
