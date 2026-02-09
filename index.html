@@ -341,6 +341,51 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 150px; }
     }
+    /* ===== mobile only: make nav look like works (nav-only glass pill) ===== */
+@media (max-width: 520px){
+
+  /* 端が詰まりすぎてるのを少し内側へ（好みで 6〜14px） */
+  :root{ --topInset: 10px; }
+
+  header{
+    padding-left: var(--topInset);
+    padding-right: var(--topInset);
+    align-items: flex-start; /* 左（名前）と右（ナビ）を上揃え */
+  }
+
+  /* ✅ ナビだけ膜（名前側は一切いじらない） */
+  .site-nav{
+    position: relative;
+    padding: 10px 12px;
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.38);     /* ←濃さ（0.30〜0.55で調整） */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,.20);
+    box-shadow: 0 10px 24px rgba(0,0,0,.10);
+
+    /* 横並びの“箱”として安定させる */
+    max-width: min(70vw, 360px);
+    margin-left: auto; /* 右寄せ維持 */
+  }
+
+  /* ✅ “work の感じ”のまま、崩れない並び */
+  .site-nav{
+    display: flex;
+    flex-wrap: wrap;           /* 1行に収まらなければ2行までOK（workの雰囲気） */
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px 10px;
+  }
+
+  .site-nav a{
+    white-space: nowrap;       /* 1リンクが途中で改行されるのを禁止 */
+  }
+
+  .site-nav a:not(:last-child)::after{
+    margin-left: 10px;         /* "/" の間隔
   </style>
 </head>
 
