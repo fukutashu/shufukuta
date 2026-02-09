@@ -345,7 +345,8 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 168px; }
     }
-    @media (max-width: 520px){
+    /* ===== mobile only: improve nav readability without changing font/layout ===== */
+@media (max-width: 520px){
 
   /* ナビ全体に“薄い下地”を敷く（文字の印象はそのまま） */
   header, .header, .nav, nav{
@@ -364,9 +365,9 @@
     bottom: -6px;
 
     /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
-    background: rgba(255,255,255,0.18);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
+    background: rgba(255,255,255,0.38);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
 
     /* “細めで控えめ”のまま、境界だけうっすら */
     border: 1px solid rgba(255,255,255,0.22);
@@ -386,198 +387,25 @@
     z-index: 1;
   }
 }
-/* ===== mobile only: nav curtain ONLY stronger (keep name curtain as-is) ===== */
-@media (max-width: 520px){
-  nav::before,
-  .nav::before,
-  .site-nav::before{
-    background: rgba(255,255,255,0.58) !important; /* ←濃さはここ */
-  }
-}
-/* ===== mobile only: slight inset for site name + top nav ===== */
-@media (max-width: 520px){
-
-  /* 端寄りを少しだけ戻す量（ここだけ触ればOK） */
-  :root{ --topInset: 10px; } /* 8〜14pxで調整 */
-
-  /* 左の名前ブロック（ロゴ/サイト名） */
-  .site-title, .brand, .logo, .site-name{
-    margin-left: var(--topInset) !important;
-  }
-
-  /* 右のナビ（cv/works/...） */
-  .site-nav, .nav, nav{
-    margin-right: var(--topInset) !important;
-  }
-}
-/* ===== ADD ONLY: force top nav horizontal on mobile (all pages) ===== */
-@media (max-width: 520px){
-
-  /* ナビを必ず横並びにする（ページ差を吸収） */
-  nav, .nav, .site-nav{
-    display: flex !important;
-    flex-wrap: nowrap !important;      /* 折り返さない */
-    align-items: center !important;
-    gap: 10px !important;              /* 好みで8〜12 */
-    white-space: nowrap !important;    /* 改行させない */
-    overflow-x: auto !important;       /* 入りきらない時は横スクロールで逃がす */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* nav が ul/li 構造でも横になる保険 */
-  nav ul, .nav ul, .site-nav ul{
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    gap: 10px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style: none !important;
-  }
-  nav li, .nav li, .site-nav li{ flex: 0 0 auto !important; }
-  nav a,  .nav a,  .site-nav a { flex: 0 0 auto !important; }
-
-  /* ナビの膜だけ濃く（名前側はそのまま） */
-  nav::before, .nav::before, .site-nav::before{
-    background: rgba(255,255,255,0.58) !important; /* ←濃さ */
-  }
-}
-/* ===== mobile only: navをworksと同じ「横並び＋折り返し」に統一（追加だけ） ===== */
-@media (max-width: 520px){
-
-  /* 1) header自体を横並びに（既にflexでも害なし） */
-  header{
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-  }
-
-  /* 2) navを横並び＋折り返し（縦並び化を潰す） */
-  header nav,
-  header .nav,
-  header .site-nav{
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    gap: 6px 10px !important;
-    text-align: right !important;
-  }
-
-  /* 3) もし<nav>内に<br>が入ってて縦になってる場合、それを無効化 */
-  header nav br,
-  header .nav br,
-  header .site-nav br{
-    display: none !important;
-  }
-
-  /* 4) a が block 扱いで縦に積まれるのを防ぐ */
-  header nav a,
-  header .nav a,
-  header .site-nav a{
-    display: inline-flex !important;
-    white-space: nowrap !important;
-  }
-}
-/* ===== mobile only: split curtains (brand stays subtle / nav stronger) + keep nav horizontal ===== */
-@media (max-width: 520px){
-
-  /* 0) いま入ってる「header全体に幕」を無効化（←これが崩れの主因） */
-  header::before{
-    content: none !important;
-  }
-
-  /* 1) ヘッダー左右の“端寄り”を少しだけ内側に */
-  header{
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  }
-
-  /* 2) 名前側（brand）の幕：今の薄さを維持（濃くしない） */
-  header .brand{
-    position: relative;
-    z-index: 2;
-    padding: 8px 10px;           /* ← ここで当たり判定/余白だけ整える */
-    border-radius: 14px;
-  }
-  header .brand::before{
-    content:"";
-    position:absolute;
-    inset: -6px -8px;
-    background: rgba(255,255,255,0.18);   /* ←名前側は薄いまま */
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
-    border: 1px solid rgba(255,255,255,0.22);
-    border-radius: 14px;
-    z-index: 0;
-    pointer-events:none;
-  }
-  header .brand *{
-    position: relative;
-    z-index: 1;
-  }
-
-  /* 3) ナビ側：幕は“ナビだけ”濃く。横一列固定。 */
-  header nav{
-    position: relative;
-    z-index: 2;
-
-    /* 横一列固定（折り返し禁止） */
-    flex-wrap: nowrap !important;
-    white-space: nowrap !important;
-
-    /* 画面に入りきらない時は横スクロールで逃がす */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-
-    /* 見た目 */
-    padding: 10px 12px;
-    border-radius: 14px;
-  }
-  header nav::before{
-    content:"";
-    position:absolute;
-    inset: -6px -8px;
-    background: rgba(255,255,255,0.58) !important; /* ←ナビだけ濃くする場所 */
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
-    border: 1px solid rgba(255,255,255,0.22);
-    border-radius: 14px;
-    z-index: 0;
-    pointer-events:none;
-  }
-  header nav *{
-    position: relative;
-    z-index: 1;
-  }
-
-  /* 4) iOSでスクロールバーを目立たせない（任意） */
-  header nav::-webkit-scrollbar{
-    height: 0px;
-  }
-}
   </style>
 </head>
 
-<body data-page="blog">
+<body>
   <div class="content-scrim" aria-hidden="true"></div>
 
   <div class="wrap">
-  <header>
-  <div class="brand">
-    <div class="name">Shu Fukuta</div>
-    <div class="sub">cv</div>
-  </div>
-
-  <nav>
-    <a data-page="cv" href="index.html">cv</a>
-    <a data-page="works" href="works.html">works</a>
-    <a data-page="exhibitions" href="exhibitions.html">exhibitions</a>
-    <a data-page="blog" href="blog.html">blog</a>
-    <a data-page="contact" href="contact.html">contact</a>
-  </nav>
-</header>
+    <header>
+      <div class="brand">
+        <div class="name">Shu Fukuta / 福田 周</div>
+        <div class="sub">artist site / blog</div>
+      </div>
+      <nav>
+        <a href="index.html">cv</a>
+        <a href="works.html">works</a>
+        <a class="active" href="blog.html">blog</a>
+        <a href="contact.html">contact</a>
+      </nav>
+    </header>
 
     <section class="panel">
       <div class="in">
