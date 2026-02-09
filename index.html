@@ -43,7 +43,7 @@
          ・線が目立つ → alpha上げる
          ・線を消す → alpha下げる
       */
-      --line:  rgba(16,22,22,.６);
+      --line:  rgba(16,22,22,.6);  /* ←ここ、全角６を半角6に修正 */
       --line2: rgba(16,22,22,.3);
 
       /* =========================
@@ -341,91 +341,83 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 150px; }
     }
+
     /* ===== mobile only: improve nav readability without changing font/layout ===== */
-@media (max-width: 520px){
+    @media (max-width: 520px){
 
-  /* ナビ全体に“薄い下地”を敷く（文字の印象はそのまま） */
-  header, .header, .nav, nav{
-    position: relative;
-  }
+      /* ナビ全体に“薄い下地”を敷く（文字の印象はそのまま） */
+      header, .header, .nav, nav{
+        position: relative;
+      }
 
-  header::before,
-  .header::before,
-  .nav::before,
-  nav::before{
-    content: "";
-    position: absolute;
-    left: -8px;
-    right: -8px;
-    top: -6px;
-    bottom: -6px;
+      header::before,
+      .header::before,
+      .nav::before,
+      nav::before{
+        content: "";
+        position: absolute;
+        left: -8px;
+        right: -8px;
+        top: -6px;
+        bottom: -6px;
 
-    /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
-    background: rgba(255,255,255,0.38);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+        /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
+        background: rgba(255,255,255,0.38);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
 
-    /* “細めで控えめ”のまま、境界だけうっすら */
-    border: 1px solid rgba(255,255,255,0.22);
-    border-radius: 14px;
+        /* “細めで控えめ”のまま、境界だけうっすら */
+        border: 1px solid rgba(255,255,255,0.22);
+        border-radius: 14px;
 
-    /* 文字の後ろに回す */
-    z-index: 0;
-    pointer-events: none;
-  }
+        /* 文字の後ろに回す */
+        z-index: 0;
+        pointer-events: none;
+      }
 
-  /* ナビ文字・リンクを膜より前に */
-  header *,
-  .header *,
-  .nav *,
-  nav *{
-    position: relative;
-    z-index: 1;
-  }
-}
-/* ===== index mobile only: brand smaller + nav wrap (2nd line = contact only) ===== */
-@media (max-width: 520px){
+      /* ナビ文字・リンクを膜より前に */
+      header *,
+      .header *,
+      .nav *,
+      nav *{
+        position: relative;
+        z-index: 1;
+      }
+    }
 
-  /* 1) 左上「Shu Fukuta / 福田周」「artist site / statement」を少し小さく */
-  header .brand,
-  header .brand a,
-  header .site-title,
-  header .site-name{
-    font-size: 14px !important;   /* ←でかいなら 15px / 14px */
-    line-height: 1.15 !important;
-  }
-  header .brand small,
-  header .brand .sub,
-  header .site-subtitle{
-    font-size: 11px !important;   /* ←副題。11pxでもOK */
-    line-height: 1.2 !important;
-  }
+    /* ===== index mobile only: brand smaller + nav wrap (2nd line = contact only) ===== */
+    @media (max-width: 520px){
 
-  /* 2) ナビ：cv をもっと左に詰める（= nav 内の余白/隙間を縮める） */
-  header nav{
-    padding-left: 0 !important;
-    margin-left: 0 !important;
-  }
-  header nav a{
-    margin-left: 0 !important;      /* ←左に詰める */
-    padding-left: 0 !important;
-    gap: 0 !important;
-  }
+      /* 左上「Shu Fukuta / 福田周」「artist site / statement」を確実に小さく */
+      header .brand .name{
+        font-size: 16px !important;  /* ←調整ポイント：15px/14pxでもOK */
+        line-height: 1.15 !important;
+      }
+      header .brand .sub{
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+      }
 
-  /* 3) 2段目を「contact だけ」にする（contact を強制的に折り返す） */
-  header nav{
-    display: flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-  }
+      /* ナビ：cv をもっと左に詰める（= nav 内の余白/隙間を縮める） */
+      header nav{
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+      }
+      header nav a{
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+      }
 
-  /* contactリンクだけ：次の行に送って右寄せ */
-  header nav a[href*="contact"]{
-    flex-basis: 100% !important;    /* これで2段目へ */
-    margin-left: auto !important;   /* 右寄せ */
-    text-align: right !important;
-  }
-}
+      /* 2段目を「contact だけ」にする（contact を強制的に折り返す） */
+      header nav a[href*="contact"]{
+        flex-basis: 100% !important;   /* これで2段目へ */
+        margin-left: auto !important;  /* 右寄せ */
+        text-align: right !important;
+      }
+    }
   </style>
 </head>
 
@@ -460,7 +452,7 @@
             </p>
 
             <div class="meta">
-              神奈川県生まれ / 在住/n現在は十条を拠点に制作
+              神奈川県生まれ / 在住<br>現在は十条を拠点に制作
             </div>
           </div>
 
@@ -480,5 +472,4 @@
     </footer>
   </div>
 </body>
-
 </html>
