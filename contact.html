@@ -349,6 +349,37 @@
     margin-right: var(--topInset) !important;
   }
 }
+/* ===== ADD ONLY: force top nav horizontal on mobile (all pages) ===== */
+@media (max-width: 520px){
+
+  /* ナビを必ず横並びにする（ページ差を吸収） */
+  nav, .nav, .site-nav{
+    display: flex !important;
+    flex-wrap: nowrap !important;      /* 折り返さない */
+    align-items: center !important;
+    gap: 10px !important;              /* 好みで8〜12 */
+    white-space: nowrap !important;    /* 改行させない */
+    overflow-x: auto !important;       /* 入りきらない時は横スクロールで逃がす */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* nav が ul/li 構造でも横になる保険 */
+  nav ul, .nav ul, .site-nav ul{
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+  nav li, .nav li, .site-nav li{ flex: 0 0 auto !important; }
+  nav a,  .nav a,  .site-nav a { flex: 0 0 auto !important; }
+
+  /* ナビの膜だけ濃く（名前側はそのまま） */
+  nav::before, .nav::before, .site-nav::before{
+    background: rgba(255,255,255,0.58) !important; /* ←濃さ */
+  }
+}
   </style>
 </head>
 
