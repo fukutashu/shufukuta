@@ -124,13 +124,13 @@
       "year": "2025",
       "medium": "video",
       "size": "サイズ可変 / (3'02\")",
-      "image": "img/work-walts-サムネ.jpg",
+      "image": "img/work-dance-サムネ.jpg",
       "images": [
-        "img/work-walts-1.jpg",
-        "img/work-walts-2.jpg",
-        "img/work-walts-3.jpg",
-        "img/work-walts-4.jpg",
-        "img/work-walts-5.jpg"
+        "img/work-dance-1.jpg",
+        "img/work-dance-2.jpg",
+        "img/work-dance-3.jpg",
+        "img/work-dance-4.jpg",
+        "img/work-dance-5.jpg"
       ],
       "youtube": "",
       "tags": ["video"],
@@ -182,13 +182,13 @@
       "year": "2024",
       "medium": "painting",
       "size": "サイズ可変",
-      "image": "img/work-ink-サムネ.jpg",
+      "image": "img/work-tatoo-サムネ.jpg",
       "images": [
-        "img/work-ink-1.jpg",
-        "img/work-ink-2.jpg",
-        "img/work-ink-3.jpg",
-        "img/work-ink-4.jpg",
-        "img/work-ink-5.jpg"
+        "img/work-tatoo-1.jpg",
+        "img/work-tatoo-2.jpg",
+        "img/work-tatoo-3.jpg",
+        "img/work-tatoo-4.jpg",
+        "img/work-tatoo-5.jpg"
       ],
       "tags": ["painting"],
       "desc": "友達にタトゥーを彫った。",
