@@ -386,6 +386,56 @@
 
   .site-nav a:not(:last-child)::after{
     margin-left: 10px;         /* "/" の間隔
+    /* ===== mobile only: make nav look like works (nav has its own curtain) ===== */
+@media (max-width: 520px){
+
+  /* 端寄りを少し内側へ（好みで 8〜14px） */
+  :root{ --topInset: 10px; }
+
+  header{
+    border-bottom: none !important; /* 下線が邪魔なら消す */
+    align-items: flex-start !important;
+  }
+
+  /* 左：名前側は“幕なし”のまま。位置だけ少し内側 */
+  header .brand{
+    margin-left: var(--topInset) !important;
+  }
+
+  /* 右：ナビ全体を「箱」にして、その箱にだけ幕を付ける */
+  header nav{
+    margin-right: var(--topInset) !important;
+
+    /* worksっぽい右寄せ */
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+
+    /* 横並び＋必要なら2行まで */
+    flex-wrap: wrap !important;
+    max-width: 66vw !important; /* 右の箱の幅（大きすぎると下に落ちる） */
+    gap: 10px !important;
+
+    /* 幕のための箱化 */
+    position: relative !important;
+    padding: 10px 14px !important;
+    border-radius: 16px !important;
+
+    /* 背景（ナビの幕だけ濃くする） */
+    background: rgba(255,255,255,0.58) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    backdrop-filter: blur(6px) !important;
+    border: 1px solid rgba(255,255,255,0.25) !important;
+
+    /* 文字が上に乗るように */
+    z-index: 1 !important;
+  }
+
+  /* “/”区切りは元のCSSのままでOKだけど、行が崩れるならこれで整う */
+  header nav a{
+    white-space: nowrap !important;
+  }
+}
   </style>
 </head>
 
