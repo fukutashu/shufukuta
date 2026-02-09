@@ -380,6 +380,45 @@
     background: rgba(255,255,255,0.58) !important; /* ←濃さ */
   }
 }
+/* ===== mobile only: navをworksと同じ「横並び＋折り返し」に統一（追加だけ） ===== */
+@media (max-width: 520px){
+
+  /* 1) header自体を横並びに（既にflexでも害なし） */
+  header{
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  /* 2) navを横並び＋折り返し（縦並び化を潰す） */
+  header nav,
+  header .nav,
+  header .site-nav{
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 6px 10px !important;
+    text-align: right !important;
+  }
+
+  /* 3) もし<nav>内に<br>が入ってて縦になってる場合、それを無効化 */
+  header nav br,
+  header .nav br,
+  header .site-nav br{
+    display: none !important;
+  }
+
+  /* 4) a が block 扱いで縦に積まれるのを防ぐ */
+  header nav a,
+  header .nav a,
+  header .site-nav a{
+    display: inline-flex !important;
+    white-space: nowrap !important;
+  }
+}
   </style>
 </head>
 
