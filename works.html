@@ -842,6 +842,30 @@
     z-index: 1;
   }
 }
+/* ===== mobile only: nav curtain ONLY stronger (keep name curtain as-is) ===== */
+@media (max-width: 520px){
+  nav::before,
+  .nav::before,
+  .site-nav::before{
+    background: rgba(255,255,255,0.58) !important; /* ←濃さはここ */
+  }
+}
+/* ===== mobile only: slight inset for site name + top nav ===== */
+@media (max-width: 520px){
+
+  /* 端寄りを少しだけ戻す量（ここだけ触ればOK） */
+  :root{ --topInset: 10px; } /* 8〜14pxで調整 */
+
+  /* 左の名前ブロック（ロゴ/サイト名） */
+  .site-title, .brand, .logo, .site-name{
+    margin-left: var(--topInset) !important;
+  }
+
+  /* 右のナビ（cv/works/...） */
+  .site-nav, .nav, nav{
+    margin-right: var(--topInset) !important;
+  }
+}
   </style>
 </head>
 
