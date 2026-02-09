@@ -290,6 +290,32 @@
 
     /* ✅ スマホで読みやすく：520px以下は1列 */
     @media (max-width: 520px){
+      @media (max-width: 520px){
+  /* 画像を主役に（好みで 1/1 or 4/5） */
+  .thumb{ aspect-ratio: 1 / 1; }
+
+  /* 余白を詰めて画像面積を増やす */
+  .cap{ padding: 10px 12px 12px; }
+
+  /* ✅一覧では「タイトル＋テキスト」だけにする */
+  .meta{ display:none; }   /* year/medium/size を消す */
+  .tags{ display:none; }   /* タグを消す */
+
+  /* テキストは出す（長いと縦が伸びるので2行省略がオススメ） */
+  .desc{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;      /* ← 2行だけ表示（ここを1〜3で調整） */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* タイトルも詰める */
+  .cap h3{
+    margin: 0 0 6px;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+}
       :root{ --grid-gap: 12px; }
       .grid{ grid-template-columns: repeat(1, minmax(0, 1fr)); }
       .cap{ padding: 12px 14px 14px; }
