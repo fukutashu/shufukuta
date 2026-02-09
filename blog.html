@@ -345,6 +345,71 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 168px; }
     }
+    @media (max-width: 520px){
+
+  /* ナビ全体に“薄い下地”を敷く（文字の印象はそのまま） */
+  header, .header, .nav, nav{
+    position: relative;
+  }
+
+  header::before,
+  .header::before,
+  .nav::before,
+  nav::before{
+    content: "";
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: -6px;
+    bottom: -6px;
+
+    /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
+    background: rgba(255,255,255,0.18);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+
+    /* “細めで控えめ”のまま、境界だけうっすら */
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 14px;
+
+    /* 文字の後ろに回す */
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ナビ文字・リンクを膜より前に */
+  header *,
+  .header *,
+  .nav *,
+  nav *{
+    position: relative;
+    z-index: 1;
+  }
+}
+/* ===== mobile only: nav curtain ONLY stronger (keep name curtain as-is) ===== */
+@media (max-width: 520px){
+  nav::before,
+  .nav::before,
+  .site-nav::before{
+    background: rgba(255,255,255,0.58) !important; /* ←濃さはここ */
+  }
+}
+/* ===== mobile only: slight inset for site name + top nav ===== */
+@media (max-width: 520px){
+
+  /* 端寄りを少しだけ戻す量（ここだけ触ればOK） */
+  :root{ --topInset: 10px; } /* 8〜14pxで調整 */
+
+  /* 左の名前ブロック（ロゴ/サイト名） */
+  .site-title, .brand, .logo, .site-name{
+    margin-left: var(--topInset) !important;
+  }
+
+  /* 右のナビ（cv/works/...） */
+  .site-nav, .nav, nav{
+    margin-right: var(--topInset) !important;
+  }
+}
   </style>
 </head>
 
