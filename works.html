@@ -754,6 +754,52 @@
     color: rgba(10,10,10,.25) !important;/* ← 薄くする（.45〜.70で調整） */
   }
 }
+/* ===== mobile ONLY: thumbnail = image only (no title, no card panel) ===== */
+@media (max-width: 520px){
+
+  /* 一覧サムネ内のタイトル（キャプション）を消す */
+  .grid .cap,
+  .grid .cap h3{
+    display: none !important;
+  }
+
+  /* 個々の作品パネル（白カード）を無効化：背景/影/余白を消す */
+  .grid .work__inner{
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  /* 角丸を「今のサムネの角丸」引き継ぎ：画像側を優先して丸める */
+  .grid .work__thumb,
+  .grid .thumb,
+  .grid .media{
+    border-radius: inherit !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+
+  /* 画像自体も角丸維持（上のコンテナが無い場合の保険） */
+  .grid img{
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: inherit !important;
+  }
+
+  /* hover/押下の「浮き」効果を画像に付与（hover対応端末＋スマホ押下） */
+  @media (hover:hover){
+    .grid .work:hover img{
+      transform: translateY(-2px);
+    }
+  }
+  .grid .work:active img{
+    transform: translateY(-1px);
+  }
+  .grid .work img{
+    transition: transform .12s ease;
+  }
+}
   </style>
 </head>
 
