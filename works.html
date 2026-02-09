@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Works / Shu Fukuta</title>
-  <meta name="description" content="Works archive of Shu Fukuta." />
+  <meta name="description" content="Works — Shu Fukuta / 福田 周" />
 
   <style>
     :root{
@@ -25,109 +25,158 @@
       --pad:clamp(16px,3vw,28px);
       --r:14px;
 
-      --sans: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system,
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
 
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono","Noto Sans Mono", monospace;
+
+      --scrimTop: 140px;
+      --ink: rgba(16,22,22,.88);
+
+      --brand: -apple-system, BlinkMacSystemFont,
+        "SF Pro Display","SF Pro Text",
+        "Helvetica Neue","Helvetica","Arial",
+        "Hiragino Sans","Hiragino Kaku Gothic ProN",
+        "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
+
+      /* Masonry (Grid + JS) */
+      --masonry-row: 10px;
       --grid-gap: 16px;
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
     body{
       margin:0;
       color:var(--text);
+      font-family:var(--sans);
       background: var(--bg);
-      font-family: var(--sans);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      background-image: url("img/bg-board.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
-    /* 背景 */
-    .content-scrim{
-      position:fixed;
-      inset:0;
-      background:
-        radial-gradient(1200px 700px at 65% -10%, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(900px 600px at 20% 20%, rgba(255,255,255,.35), transparent 55%),
-        linear-gradient(to bottom, rgba(255,255,255,.00), rgba(255,255,255,.22));
-      pointer-events:none;
-      mix-blend-mode: normal;
-      z-index:0;
-    }
-
-    /* 背景画像（ヘッダー） */
     body::before{
       content:"";
-      position:fixed;
-      top:0; left:0; right:0;
-      height: 52vh;
+      position:fixed; inset:0;
+      pointer-events:none;
       background:
-        linear-gradient(to bottom, rgba(244,242,238,.25), rgba(244,242,238,1)),
-        url("bg-board.jpg") center / cover no-repeat;
-      filter: saturate(.95) contrast(.98);
+        radial-gradient(900px 520px at 60% 18%,
+          rgba(255,255,255,.10),
+          rgba(244,242,238,.36) 70%
+        ),
+        linear-gradient(to bottom,
+          rgba(255,255,255,.06),
+          rgba(244,242,238,.38)
+        );
+      z-index:-2;
+    }
+
+    .content-scrim{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      top: var(--scrimTop);
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom,
+          rgba(244,242,238,.10),
+          rgba(244,242,238,.55) 22%,
+          rgba(244,242,238,.70) 100%
+        );
       z-index:-1;
     }
+
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(to bottom,
+          rgba(0,0,0,.05),
+          rgba(0,0,0,.05) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 7px
+        );
+      opacity:.035;
+      mix-blend-mode:multiply;
+      z-index:-1;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ color:var(--accent); }
+    ::selection{ background: rgba(60,92,78,.16); }
 
     .wrap{
       max-width:var(--max);
       margin:0 auto;
       padding: calc(var(--pad)*1.2) var(--pad) calc(var(--pad)*2);
       position:relative;
-      z-index:1;
     }
 
     header{
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
-      gap: 16px;
-      padding: 0 2px;
+      gap:16px;
+      padding:18px 0 10px;
+      border-bottom:1px solid var(--line);
     }
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap: 2px;
-      line-height:1;
+    .brand{ display:flex; flex-direction:column; gap:4px; }
+    .brand .name{
+      font-family: var(--brand);
+      font-size:clamp(18px,2.2vw,22px);
+      font-weight:520;
+      letter-spacing:.035em;
+      line-height:1.15;
+      color: var(--ink);
     }
-    .name{
-      font-size: 30px;
-      font-weight: 520;
-      letter-spacing: .2px;
-    }
-    .sub{
-      font-family: var(--mono);
-      font-size: 14px;
-      color: var(--faint);
-      text-transform: lowercase;
+    .brand .sub{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.2;
+      letter-spacing:.02em;
     }
 
     nav{
       display:flex;
-      gap: 18px;
-      align-items:baseline;
+      gap:10px;
       flex-wrap:wrap;
       justify-content:flex-end;
-      margin-top: 8px;
+      align-items:center;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
     }
     nav a{
       position:relative;
-      text-decoration:none;
-      color: rgba(10,10,10,.78);
-      font-family: var(--mono);
-      font-size: 15px;
-      padding: 6px 2px;
-      transition: color .12s ease;
+      padding:2px 0;
+      letter-spacing:.02em;
+      color:var(--muted);
     }
-    nav a:hover{ color: rgba(10,10,10,.92); }
-    nav a.active{ color: rgba(10,10,10,.92); }
+    nav a:not(:last-child)::after{
+      content:"/";
+      margin-left:10px;
+      color: rgba(16,22,22,.22);
+    }
+    nav a.active{ color: var(--ink); }
     nav a.active::before{
       content:"";
       position:absolute;
       left:0; right:0; bottom:-4px;
       height:1px;
-      background: rgba(10,10,10,.22);
+      background: linear-gradient(to right,
+        rgba(60,92,78,0),
+        rgba(60,92,78,.55),
+        rgba(60,92,78,0)
+      );
     }
+    nav a:hover{ color: var(--ink); }
 
     .panel{
       margin-top:18px;
@@ -136,96 +185,129 @@
       border-radius: var(--r);
       backdrop-filter: blur(3px);
       box-shadow:
-        0 10px 30px rgba(0,0,0,.06),
+        0 10px 24px rgba(0,0,0,.06),
         0 1px 0 rgba(255,255,255,.55) inset;
     }
-
-    .in{ padding: calc(var(--pad)*1.1); }
+    .panel .in{ padding: calc(var(--pad)*1.1); }
 
     .topbar{
       display:flex;
-      align-items:baseline;
+      align-items:flex-end;
       justify-content:space-between;
-      gap: 16px;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
     }
     .title{
-      margin: 0;
-      font-size: 28px;
+      margin:0;
+      font-size: clamp(18px, 2.6vw, 22px);
       font-weight: 560;
-      letter-spacing: .2px;
+      letter-spacing:.02em;
+      color: var(--ink);
     }
     .hint{
       margin:0;
       font-family: var(--mono);
-      font-size: 13px;
-      color: rgba(10,10,10,.55);
+      font-size: 12px;
+      color: var(--muted);
     }
 
     .chips{
-      margin-top: 14px;
       display:flex;
       flex-wrap:wrap;
-      gap: 10px;
+      gap:10px;
+      margin: 10px 0 10px;
     }
     .chip{
-      border: 1px solid rgba(0,0,0,.10);
-      background: rgba(255,255,255,.28);
-      color: rgba(10,10,10,.72);
-      font-family: var(--mono);
-      font-size: 13px;
-      padding: 8px 12px;
+      border: 1px solid rgba(0,0,0,.075);
+      background: rgba(255,255,255,.20);
+      color: var(--muted);
+      padding: 7px 10px;
       border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 12px;
       cursor:pointer;
-      user-select:none;
-      transition: background .12s ease, border-color .12s ease, transform .12s ease;
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
     }
-    .chip:hover{ background: rgba(255,255,255,.42); transform: translateY(-1px); }
-    .chip.active{
-      border-color: rgba(60,92,78,.22);
-      background: rgba(60,92,78,.10);
-      color: rgba(10,10,10,.80);
+    .chip:hover{ border-color: rgba(0,0,0,.10); color: rgba(10,10,10,.78); }
+    .chip[aria-pressed="true"]{
+      border-color: var(--accent2);
+      color: var(--accent);
+      background: rgba(255,255,255,.28);
     }
 
     .sortRow{
-      margin-top: 16px;
       display:flex;
-      align-items:center;
       justify-content:flex-end;
-      gap: 12px;
+      align-items:center;
+      gap:10px;
+      margin: 6px 0 14px;
       font-family: var(--mono);
-      color: rgba(10,10,10,.60);
-      font-size: 13px;
+      color: var(--muted);
+      font-size: 12px;
     }
     .sortSel{
       font-family: var(--mono);
-      font-size: 14px;
-      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--ink);
+      background: rgba(255,255,255,.22);
+      border: 1px solid rgba(0,0,0,.075);
       border-radius: 999px;
-      border: 1px solid rgba(0,0,0,.10);
-      background: rgba(255,255,255,.34);
-      color: rgba(10,10,10,.78);
-      outline:none;
+      padding: 7px 10px;
+      cursor: pointer;
+      outline: none;
+    }
+    .sortSel:focus-visible{
+      box-shadow: 0 0 0 3px rgba(60,92,78,.14);
     }
 
-    /* Masonry container */
-    .grid{
-      position: relative;
-      width: 100%;
-      /* gapは既存の --grid-gap をそのまま使う */
-      min-height: 40vh;
-      margin-top: 16px;
+    /* =========================
+       ✅ 一覧：Grid + JS masonry（空欄バグ対策込み）
+       ========================= */
+    /* =========================
+   ✅ Masonry: absolute layout（空欄ゼロ方式）
+   ========================= */
+.grid{
+  position: relative;
+  width: 100%;
+  /* gapは既存の --grid-gap をそのまま使う */
+  min-height: 40vh;
+}
+
+/* 子要素はJSで位置決めする */
+.work{
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+  align-self: auto; /* 念のため */
+}
+
+    @media (max-width: 900px){
+      :root{ --scrimTop: 168px; --grid-gap: 12px; }
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    /* 子要素はJSで位置決めする */
+    /* ✅ スマホで読みやすく：520px以下は1列 */
+    @media (max-width: 520px){
+      :root{ --grid-gap: 12px; }
+      .grid{ grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .cap{ padding: 12px 14px 14px; }
+      .cap h3{ font-size: 15px; }
+      .desc{ font-size: 14px; }
+    }
+
+    @media (min-width: 1100px){
+      .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
     .work{
-      position: absolute;
-      left: 0;
-      top: 0;
-      will-change: transform;
-      align-self: auto; /* 念のため */
+      outline:none;
+      cursor:pointer;
+      align-self:start;
+      /* JSがgrid-row-endを付与する */
     }
 
-    /* 既存：hover浮きは維持 */
     .work__inner{
       border:1px solid rgba(0,0,0,.045);
       border-radius: 14px;
@@ -242,11 +324,11 @@
 
     .work:hover .work__inner,
     .work:focus-visible .work__inner{
-      transform: translate3d(0,-2px,0) scale(1.01);
+      transform: translate3d(0,-3px,0);
       box-shadow:
-        0 10px 25px rgba(0,0,0,.10),
-        0 1px 0 rgba(255,255,255,.35) inset;
-      border-color: rgba(0,0,0,.08);
+        0 18px 38px rgba(0,0,0,.13),
+        0 1px 0 rgba(255,255,255,.40) inset;
+      border-color: rgba(0,0,0,.10);
     }
 
     .thumb{
@@ -266,19 +348,18 @@
     .thumb::after{
       content:"";
       position:absolute; inset:0;
-      background: linear-gradient(to top, rgba(0,0,0,.08), transparent 45%);
-      opacity:.08;
+      background: linear-gradient(to top, rgba(0,0,0,.38), transparent 60%);
+      opacity:.18;
       pointer-events:none;
     }
 
     .cap{ padding: 12px 14px 14px; }
     .cap h3{
-      margin: 0 0 8px;
-      font-size: 16px;
+      margin:0 0 6px;
+      font-size: 14px;
       font-weight: 560;
-      letter-spacing: .15px;
+      letter-spacing:.02em;
     }
-
     .meta{
       font-family: var(--mono);
       font-size: 12px;
@@ -289,13 +370,12 @@
       margin-bottom: 10px;
     }
     .desc{
-      margin: 0;
-      color: rgba(10,10,10,.76);
-      font-size: 15px;
-      line-height: 1.6;
-      word-break: break-word;
+      margin:0;
+      font-size: 13px;
+      line-height: 1.8;
+      color: rgba(10,10,10,.80);
+      white-space: pre-wrap;
     }
-
     .tags{
       margin-top: 10px;
       display:flex;
@@ -307,202 +387,276 @@
       font-size: 11px;
       color: rgba(10,10,10,.70);
       border: 1px solid rgba(0,0,0,.08);
-      background: rgba(255,255,255,.40);
-      padding: 7px 10px;
+      background: rgba(255,255,255,.18);
+      padding: 5px 8px;
       border-radius: 999px;
     }
 
-    footer{
-      margin-top: 18px;
-      padding: 0 2px;
-      display:flex;
-      justify-content:space-between;
-      color: rgba(10,10,10,.55);
-      font-family: var(--mono);
-      font-size: 13px;
-    }
-
-    /* Lightbox（旧見た目維持） */
+    /* =========================
+       ✅ 詳細：旧見た目 + メインだけ白壁（あなたの指定）
+       ========================= */
     .lb{
-      position: fixed;
-      inset: 0;
-      z-index: 50;
+      position:fixed;
+      inset:0;
       display:none;
-    }
-    .lb.open{ display:block; }
-    .lb__bg{
-      position:absolute; inset:0;
-      background: rgba(10,10,10,.62);
+      place-items:center;
+      padding: 16px;
+      background: rgba(0,0,0,.42);
       backdrop-filter: blur(2px);
+      z-index: 80;
     }
-    .lb__panel{
-      position:absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-50%);
-      width: min(1080px, calc(100vw - 32px));
-      height: min(720px, calc(100vh - 32px));
-      border-radius: 18px;
-      overflow:hidden;
-      background: rgba(25,25,25,.86);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-      display:flex;
-      flex-direction:column;
-    }
-    .lb__top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 14px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      gap: 12px;
-    }
-    .lb__title{
-      margin:0;
-      font-size: 16px;
-      font-weight: 560;
-      color: rgba(255,255,255,.88);
-      letter-spacing:.15px;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .lb__btns{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-    }
-    .lb__btn{
-      font-family: var(--mono);
-      font-size: 14px;
-      color: rgba(255,255,255,.80);
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.10);
-      padding: 10px 14px;
-      border-radius: 999px;
-      cursor:pointer;
-      user-select:none;
-    }
-    .lb__btn:hover{ background: rgba(255,255,255,.14); }
+    .lb[open]{ display:grid; }
 
-    /* 旧仕様：上がメディア、下がテキスト（潰れない） */
-    .lb__body{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      min-height:0;
-    }
-    .lb__media{
-      flex: 0 0 auto;
-      background: #fff; /* 選択メイン画像背後は白壁 */
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height: 40%;
-      max-height: 56%;
-      position:relative;
-    }
-    .lb__mediaInner{
-      width: 100%;
-      height: 100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
+    .lb__panel{
+      width:min(1160px, 100%);
+      height: 92vh;
+
+      background: rgba(12,12,13,.55);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      border-radius: 16px;
       overflow:hidden;
+      backdrop-filter: blur(6px);
+
+      display:grid;
+      grid-template-rows: minmax(0, 1fr) auto;
     }
-    .lb__mediaInner img,
-    .lb__mediaInner iframe{
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      display:block;
+
+    .lb__top{
+      min-height:0;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: minmax(0,1fr) 260px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
     }
-    .lb__mediaInner iframe{
+
+    @media (max-width: 900px){
+      .lb__top{
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0,1fr) auto;
+      }
+    }
+
+    /* ✅ ここが要点：メイン画像の後ろ＝白壁 */
+    .lb__main{
+      min-height:0;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 28px;
+      background: rgba(255,255,255,.96);
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+
+    /* 切れない表示（contain） */
+    .lb__main img,
+    .lb__main video{
       width: 100%;
       height: 100%;
+      object-fit: contain;
+      display:block;
+      border-radius: 12px;
+    }
+    .lb__main iframe{
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      display:block;
+      border-radius: 12px;
+      background:#000;
       border:0;
     }
-
-    .lb__thumbs{
-      position:absolute;
-      right: 10px;
-      top: 10px;
-      bottom: 10px;
-      width: 120px;
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      overflow:auto;
-      padding: 0 2px;
+    .lb__main video{
+      background:#000;
     }
-    .lb__thumbs::-webkit-scrollbar{ width: 10px; }
-    .lb__thumb{
-      border: 1px solid rgba(0,0,0,.10);
-      border-radius: 10px;
+
+    .lb__list{
+      min-height:0;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255,255,255,.20);
+      border-left: 1px solid rgba(255,255,255,.10);
+      padding: 12px;
+    }
+
+    @media (max-width: 900px){
+      .lb__list{
+        border-left: 0;
+        border-top: 1px solid rgba(255,255,255,.12);
+        display:flex;
+        gap: 10px;
+        overflow-x:auto;
+        overflow-y:hidden;
+        padding: 10px;
+      }
+    }
+
+    .lb__thumbBtn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding:0;
+      border-radius: 12px;
       overflow:hidden;
       cursor:pointer;
-      background:#fff;
+      width: 100%;
+      height: 92px;
+      margin-bottom: 10px;
+      flex: 0 0 auto;
     }
-    .lb__thumb img{
+    @media (max-width: 900px){
+      .lb__thumbBtn{
+        width: 110px;
+        height: 82px;
+        margin-bottom: 0;
+      }
+    }
+    .lb__thumbBtn img{
       width:100%;
-      height:auto;
+      height:100%;
+      object-fit: cover;
       display:block;
+      filter: saturate(.95) contrast(1.02);
     }
-    .lb__thumb.active{
-      outline: 2px solid rgba(60,92,78,.55);
-      outline-offset: 2px;
+    .lb__thumbBtn[aria-current="true"]{
+      border-color: rgba(255,255,255,.32);
+      box-shadow: 0 0 0 2px rgba(60,92,78,.28);
     }
 
-    .lb__text{
-      flex: 1 1 auto;
-      min-height:0;
-      overflow:auto; /* 長文は下段スクロール */
-      padding: 16px;
+    /* ===========================
+       ✅ Lightbox: 長文で上段が潰れる問題の修正（あなたの完璧コード）
+       =========================== */
+    .lb__panel{
+      grid-template-rows: minmax(280px, 1fr) minmax(180px, 34vh) !important;
+    }
+    .lb__bottom{
+      min-height: 0 !important;
+      overflow: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+    .lb__desc{
+      max-height: 24vh !important;
+      overflow: auto !important;
+      padding-right: 6px;
+    }
+    .lb__main{
+      min-height: 280px !important;
+    }
+    .lb__main iframe{
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 280px !important;
+      display: block !important;
+    }
+    @media (max-width: 860px){
+      .lb__panel{
+        grid-template-rows: minmax(240px, 1fr) minmax(180px, 42vh) !important;
+      }
+      .lb__desc{
+        max-height: 28vh !important;
+      }
+    }
+
+    /* 下段テキスト（旧） */
+    .lb__bottom{
+      padding: 12px 14px 14px;
+      background: rgba(12,12,13,.22);
+      color: rgba(255,255,255,.90);
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .lb__head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+
+    .lb__txt{ min-width:0; }
+    .lb__txt .t{ margin:0 0 6px; font-size: 13px; font-weight: 560; color: rgba(255,255,255,.92); }
+    .lb__txt .m{ margin:0; font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,.66); }
+
+    .lb__tagRow{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .lb__tag{
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .lb__desc{
+      background: rgba(0,0,0,.16);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      color: rgba(255,255,255,.84);
+      font-size: 13px;
+      line-height: 1.85;
+      white-space: pre-wrap;
+    }
+
+    .lb__actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+      margin-top: 10px;
+    }
+    .lb__btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
       color: rgba(255,255,255,.86);
-      font-size: 14px;
-      line-height: 1.65;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
-    .lb__text .meta{
-      color: rgba(255,255,255,.70);
-      margin-bottom: 12px;
+    .lb__btn:hover{ border-color: rgba(255,255,255,.30); }
+
+    footer{
+      margin-top:18px;
+      padding-top:12px;
+      border-top:1px solid var(--line);
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    .lb__text .tags .tag{
-      color: rgba(255,255,255,.80);
-      border-color: rgba(255,255,255,.18);
-      background: rgba(255,255,255,.08);
-    }
+    /* ===== mobile: wider panel & bigger cards (minimal) ===== */
+@media (max-width: 520px){
+  /* 画面ギリギリまで（外側） */
+  .wrap{
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
 
-    /* 1100px以上は3列（既存） */
-    @media (min-width: 1100px){
-      .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
+  /* パネル内の左右余白を詰める（中側） */
+  .panel .in, .panel .inner, .panel .content{
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
 
-    /* ✅ スマホ調整：520px以下 */
-    @media (max-width: 520px){
-      :root{ --grid-gap: 10px; }
-
-      /* 画面ギリギリに寄せる（スマホのみ） */
-      .wrap{
-        padding-left: 6px !important;
-        padding-right: 6px !important;
-      }
-      .in{
-        padding: 12px !important;
-      }
-
-      /* 見た目は変えずに2列へ（列数はJSも2にしている） */
-      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      /* 一覧は「画像＋タイトル」だけ */
-      .meta, .desc, .tags{ display:none !important; }
-
-      .cap{ padding: 10px 12px 12px; }
-      .cap h3{ font-size: 15px; margin: 0; }
-    }
+  /* カード間の隙間を少しだけ詰める（効きが大きい） */
+  :root{ --grid-gap: 10px !important; }
+}
   </style>
 </head>
 
@@ -554,49 +708,57 @@
   </div>
 
   <!-- Lightbox -->
-  <div class="lb" id="lb" aria-hidden="true">
-    <div class="lb__bg" id="lbBg"></div>
-    <div class="lb__panel" role="dialog" aria-modal="true" aria-label="work detail">
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="viewer">
+    <div class="lb__panel">
       <div class="lb__top">
-        <h2 class="lb__title" id="lbTitle">title</h2>
-        <div class="lb__btns">
-          <button class="lb__btn" id="lbLinkBtn" type="button">link</button>
-          <button class="lb__btn" id="lbCloseBtn" type="button">close</button>
-        </div>
+        <div class="lb__main" id="lbMain"></div>
+        <div class="lb__list" id="lbList"></div>
       </div>
 
-      <div class="lb__body">
-        <div class="lb__media">
-          <div class="lb__mediaInner" id="lbMedia"></div>
-          <div class="lb__thumbs" id="lbThumbs" aria-label="thumbnails"></div>
+      <div class="lb__bottom">
+        <div class="lb__head">
+          <div class="lb__txt">
+            <p class="t" id="lbTitle"></p>
+            <p class="m" id="lbMeta"></p>
+            <div class="lb__tagRow" id="lbTags"></div>
+          </div>
         </div>
-        <div class="lb__text" id="lbText"></div>
+
+        <div class="lb__desc" id="lbDesc"></div>
+
+        <div class="lb__actions">
+          <a class="lb__btn" id="lbLink" href="#" target="_blank" rel="noopener" style="display:none;">link</a>
+          <button class="lb__btn" id="lbClose" type="button">close</button>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-  const DATA_URL = "data/works.json";
+    async function loadWorks(){
+      const url = "data/works.json?v=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
+      if(!res.ok) throw new Error("Failed to load works.json: " + res.status);
+      return await res.json();
+    }
 
-  const gridEl = document.getElementById("grid");
-  const chipsEl = document.getElementById("chips");
-  const sortSel = document.getElementById("sortSel");
+    function parseYear(y){
+      const s = String(y||"");
+      const m = s.match(/\d{4}/g);
+      if(!m) return null;
+      const n = parseInt(m[0], 10);
+      return Number.isFinite(n) ? n : null;
+    }
 
-  const lb = document.getElementById("lb");
-  const lbBg = document.getElementById("lbBg");
-  const lbCloseBtn = document.getElementById("lbCloseBtn");
-  const lbTitle = document.getElementById("lbTitle");
-  const lbMedia = document.getElementById("lbMedia");
-  const lbThumbs = document.getElementById("lbThumbs");
-  const lbText = document.getElementById("lbText");
-  const lbLinkBtn = document.getElementById("lbLinkBtn");
-
-  let allWorks = [];
-  let filtered = [];
-  let activeTag = "all";
-  let activeSort = "custom";
-  let activeIndex = -1;
-
+    /* ===========================
+       Masonry (Grid + JS)
+       ✅ 空欄大量発生対策：各カードをResizeObserverで監視してspanを常時更新
+       =========================== */
+   /* ===========================
+   ✅ Masonry: absolute layout（Pinterest方式）
+   空欄が原理的に出ない
+   =========================== */
+function setupMasonry(gridEl){
   const getGap = () => {
     const g = getComputedStyle(document.documentElement).getPropertyValue('--grid-gap').trim();
     const n = parseFloat(g);
@@ -605,7 +767,7 @@
 
   const getCols = () => {
     const w = window.innerWidth;
-    if (w <= 520) return 2;     // ← スマホは2列（Pinterest寄せ）
+    if (w <= 520) return 1;
     if (w >= 1100) return 3;
     return 2;
   };
@@ -661,246 +823,365 @@
   }
   window.addEventListener('resize', schedule, { passive:true });
 
-  function uniq(arr){
-    return Array.from(new Set(arr.filter(Boolean)));
-  }
-
-  function buildChips(){
-    const tags = uniq(allWorks.flatMap(w => w.tags || []));
-    const ordered = ["all", ...tags];
-    chipsEl.innerHTML = "";
-    ordered.forEach(tag=>{
-      const b = document.createElement("button");
-      b.className = "chip" + (tag===activeTag ? " active" : "");
-      b.type = "button";
-      b.textContent = tag;
-      b.addEventListener("click", ()=>{
-        activeTag = tag;
-        Array.from(chipsEl.querySelectorAll(".chip")).forEach(x=>x.classList.remove("active"));
-        b.classList.add("active");
-        applyFilters();
-      });
-      chipsEl.appendChild(b);
+  // 画像ロードでも再レイアウト
+  function bindImages(){
+    gridEl.querySelectorAll('img').forEach(img=>{
+      if(img.complete) return;
+      img.addEventListener('load', schedule, { once:true });
+      img.addEventListener('error', schedule, { once:true });
     });
   }
 
-  function sortWorks(list){
-    if(activeSort === "year_desc"){
-      return [...list].sort((a,b)=>(Number(b.year)||0)-(Number(a.year)||0));
-    }
-    if(activeSort === "year_asc"){
-      return [...list].sort((a,b)=>(Number(a.year)||0)-(Number(b.year)||0));
-    }
-    // custom
-    return [...list];
-  }
+  // grid自身のサイズ変化にも追従
+  const ro = new ResizeObserver(schedule);
+  ro.observe(gridEl);
 
-  function applyFilters(){
-    const base = activeTag==="all"
-      ? allWorks
-      : allWorks.filter(w => (w.tags||[]).includes(activeTag));
-
-    filtered = sortWorks(base);
-    renderGrid();
-  }
-
-  function renderGrid(){
-    gridEl.innerHTML = "";
-
-    filtered.forEach((w, idx)=>{
-      const a = document.createElement("a");
-      a.className = "work";
-      a.href = "#";
-      a.setAttribute("data-index", String(idx));
-      a.addEventListener("click", (ev)=>{
-        ev.preventDefault();
-        openLightbox(idx);
-      });
-
-      const inner = document.createElement("div");
-      inner.className = "work__inner";
-
-      const thumb = document.createElement("div");
-      thumb.className = "thumb";
-      const img = document.createElement("img");
-      img.src = w.image;
-      img.alt = w.title || "";
-      img.loading = "lazy";
-      img.decoding = "async";
-      thumb.appendChild(img);
-
-      const cap = document.createElement("div");
-      cap.className = "cap";
-
-      const h = document.createElement("h3");
-      h.textContent = w.title || "(untitled)";
-
-      const meta = document.createElement("div");
-      meta.className = "meta";
-      [w.year, w.medium, w.size].filter(Boolean).forEach(v=>{
-        const s = document.createElement("span");
-        s.textContent = v;
-        meta.appendChild(s);
-      });
-
-      const desc = document.createElement("p");
-      desc.className = "desc";
-      desc.textContent = w.desc || "";
-
-      const tagsBox = document.createElement("div");
-      tagsBox.className = "tags";
-      (w.tags||[]).forEach(t=>{
-        const sp = document.createElement("span");
-        sp.className = "tag";
-        sp.textContent = t;
-        tagsBox.appendChild(sp);
-      });
-
-      cap.appendChild(h);
-      cap.appendChild(meta);
-      cap.appendChild(desc);
-      cap.appendChild(tagsBox);
-
-      inner.appendChild(thumb);
-      inner.appendChild(cap);
-
-      a.appendChild(inner);
-      gridEl.appendChild(a);
-
-      // 画像読み込み後に再レイアウト
-      img.addEventListener("load", schedule, { once:true });
-      img.addEventListener("error", schedule, { once:true });
-    });
-
-    requestAnimationFrame(()=>{
+  return {
+    refresh(){
+      bindImages();
       schedule();
-    });
-  }
-
-  function openLightbox(index){
-    activeIndex = index;
-    const w = filtered[index];
-    if(!w) return;
-
-    lb.classList.add("open");
-    lb.setAttribute("aria-hidden","false");
-
-    lbTitle.textContent = w.title || "(untitled)";
-    lbMedia.innerHTML = "";
-    lbThumbs.innerHTML = "";
-    lbText.innerHTML = "";
-
-    // linkボタン
-    const link = w.link || "";
-    if(link){
-      lbLinkBtn.style.display = "";
-      lbLinkBtn.onclick = ()=> window.open(link, "_blank", "noopener");
-    }else{
-      lbLinkBtn.style.display = "none";
-      lbLinkBtn.onclick = null;
+      // Safari遅延保険
+      setTimeout(schedule, 120);
+      setTimeout(schedule, 350);
     }
+  };
+}
 
-    // メディア（YouTube優先）
-    let currentSrc = "";
-    const images = (w.images && w.images.length) ? w.images : (w.image ? [w.image] : []);
-    const yt = w.youtube || "";
-
-    const setMain = (src) => {
-      currentSrc = src;
-      lbMedia.innerHTML = "";
-      if(src && src.startsWith("http") && (src.includes("youtube.com") || src.includes("youtu.be"))){
-        const iframe = document.createElement("iframe");
-        iframe.src = src;
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-        iframe.allowFullscreen = true;
-        lbMedia.appendChild(iframe);
-      }else if(src){
-        const im = document.createElement("img");
-        im.src = src;
-        im.alt = w.title || "";
-        lbMedia.appendChild(im);
+    (async ()=>{
+      let data;
+      try{
+        data = await loadWorks();
+      }catch(err){
+        console.error(err);
+        document.getElementById("grid").innerHTML =
+          '<div style="width:100%; font-family:var(--mono); color:var(--muted); padding:10px;">could not load <b>data/works.json</b></div>';
+        return;
       }
-    };
 
-    // 右側のサムネ群（YouTube作品でも必ず画像サムネ群が出る）
-    images.forEach((src, i)=>{
-      const d = document.createElement("div");
-      d.className = "lb__thumb" + (i===0 ? " active" : "");
-      const im = document.createElement("img");
-      im.src = src;
-      im.alt = (w.title || "") + " " + (i+1);
-      d.appendChild(im);
-      d.addEventListener("click", ()=>{
-        Array.from(lbThumbs.querySelectorAll(".lb__thumb")).forEach(x=>x.classList.remove("active"));
-        d.classList.add("active");
-        setMain(src);
-      });
-      lbThumbs.appendChild(d);
-    });
+      const works = (data.works || []).map((w, i)=>({ ...w, __idx: i }));
 
-    // 初期メイン：YouTubeがあるならYouTube、なければ1枚目
-    if(yt){
-      setMain(yt);
-      // active表示は一旦1枚目に残す（右に群が出ることが重要）
-    }else{
-      setMain(images[0] || "");
-    }
+      const chipsEl = document.getElementById("chips");
+      const sortSel = document.getElementById("sortSel");
+      const gridEl  = document.getElementById("grid");
+      const masonry = setupMasonry(gridEl);
 
-    // テキスト
-    const meta = document.createElement("div");
-    meta.className = "meta";
-    [w.year, w.medium, w.size].filter(Boolean).forEach(v=>{
-      const s = document.createElement("span");
-      s.textContent = v;
-      meta.appendChild(s);
-    });
+      // Lightbox
+      const lb = document.getElementById("lb");
+      const lbMain  = document.getElementById("lbMain");
+      const lbList  = document.getElementById("lbList");
+      const lbTitle = document.getElementById("lbTitle");
+      const lbMeta  = document.getElementById("lbMeta");
+      const lbDesc  = document.getElementById("lbDesc");
+      const lbClose = document.getElementById("lbClose");
+      const lbLink  = document.getElementById("lbLink");
+      const lbTags  = document.getElementById("lbTags");
 
-    const desc = document.createElement("div");
-    desc.textContent = w.desc || "";
+      // tags
+      const allTags = Array.from(new Set(
+        works.flatMap(w => (w.tags||[]).map(t=>String(t).trim()).filter(Boolean))
+      )).sort((a,b)=>a.localeCompare(b, "ja"));
 
-    const tags = document.createElement("div");
-    tags.className = "tags";
-    (w.tags||[]).forEach(t=>{
-      const sp = document.createElement("span");
-      sp.className = "tag";
-      sp.textContent = t;
-      tags.appendChild(sp);
-    });
+      let activeTag = null;
 
-    lbText.appendChild(meta);
-    lbText.appendChild(desc);
-    lbText.appendChild(tags);
-  }
+      function renderChips(){
+        chipsEl.innerHTML = "";
 
-  function closeLightbox(){
-    lb.classList.remove("open");
-    lb.setAttribute("aria-hidden","true");
-    activeIndex = -1;
-  }
+        function mk(label, pressed){
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "chip";
+          b.textContent = label;
+          b.setAttribute("aria-pressed", String(pressed));
+          b.addEventListener("click", ()=>{
+            activeTag = (label === "all") ? null : label;
+            renderChips();
+            renderGrid();
+          });
+          return b;
+        }
 
-  lbBg.addEventListener("click", closeLightbox);
-  lbCloseBtn.addEventListener("click", closeLightbox);
-  window.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape" && lb.classList.contains("open")) closeLightbox();
-  });
+        chipsEl.appendChild(mk("all", activeTag===null));
+        allTags.forEach(t=>chipsEl.appendChild(mk(t, activeTag===t)));
+      }
 
-  sortSel.addEventListener("change", ()=>{
-    activeSort = sortSel.value;
-    applyFilters();
-  });
+      function match(w){
+        if(!activeTag) return true;
+        return (w.tags||[]).includes(activeTag);
+      }
 
-  async function init(){
-    const res = await fetch(DATA_URL, { cache:"no-store" });
-    const data = await res.json();
-    allWorks = data.works || [];
-    buildChips();
-    applyFilters();
-  }
+      function getSorted(list){
+        const mode = sortSel.value || "custom";
+        const arr = list.slice();
 
-  init().catch(err=>{
-    console.error(err);
-    gridEl.innerHTML = "<p style='font-family:var(--mono);color:rgba(10,10,10,.6)'>failed to load data/works.json</p>";
-  });
+        if(mode === "year_desc"){
+          arr.sort((a,b)=>{
+            const ay = parseYear(a.year); const by = parseYear(b.year);
+            if(ay===null && by===null) return 0;
+            if(ay===null) return 1;
+            if(by===null) return -1;
+            return by - ay;
+          });
+          return arr;
+        }
+
+        if(mode === "year_asc"){
+          arr.sort((a,b)=>{
+            const ay = parseYear(a.year); const by = parseYear(b.year);
+            if(ay===null && by===null) return 0;
+            if(ay===null) return 1;
+            if(by===null) return -1;
+            return ay - by;
+          });
+          return arr;
+        }
+
+        // custom：orderがあればそれ、なければJSON順（本文や順を勝手に改変しない）
+        arr.sort((a,b)=>{
+          const ao = (a.order==null) ? a.__idx : Number(a.order);
+          const bo = (b.order==null) ? b.__idx : Number(b.order);
+          if(ao !== bo) return ao - bo;
+
+          const ay = parseYear(a.year) ?? -Infinity;
+          const by = parseYear(b.year) ?? -Infinity;
+          if(ay !== by) return by - ay;
+
+          return String(a.title||"").localeCompare(String(b.title||""), "ja");
+        });
+        return arr;
+      }
+
+      function clearLB(){
+        lbMain.innerHTML = "";
+        lbList.innerHTML = "";
+        lbTags.innerHTML = "";
+        lbDesc.textContent = "";
+        lbTitle.textContent = "";
+        lbMeta.textContent = "";
+        lbLink.style.display = "none";
+        lbLink.href = "#";
+      }
+
+      function setCurrentThumb(btn){
+        lbList.querySelectorAll(".lb__thumbBtn").forEach(b=>{
+          b.setAttribute("aria-current", String(b===btn));
+        });
+      }
+
+      function setMainImage(src, alt){
+        lbMain.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = alt || "";
+        img.decoding = "async";
+        img.loading = "eager";
+        lbMain.appendChild(img);
+      }
+
+      function showVideoInMain(w){
+        lbMain.innerHTML = "";
+        if(w.youtube && String(w.youtube).trim()){
+          const iframe = document.createElement("iframe");
+          iframe.src = w.youtube;
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+          iframe.allowFullscreen = true;
+          lbMain.appendChild(iframe);
+          return;
+        }
+        if(w.video && String(w.video).trim()){
+          const v = document.createElement("video");
+          v.controls = true;
+          v.playsInline = true;
+          v.preload = "metadata";
+          v.poster = w.image || "";
+          const s = document.createElement("source");
+          s.src = w.video;
+          s.type = "video/mp4";
+          v.appendChild(s);
+          lbMain.appendChild(v);
+        }
+      }
+
+      function openLB(w){
+        clearLB();
+        lb.setAttribute("open","");
+
+        lbTitle.textContent = w.title || "";
+        lbMeta.textContent  = [w.year, w.medium, w.size].filter(Boolean).join(" / ");
+        lbDesc.textContent  = w.note || w.desc || "";
+
+        (w.tags||[]).forEach(t=>{
+          const s = document.createElement("span");
+          s.className = "lb__tag";
+          s.textContent = t;
+          lbTags.appendChild(s);
+        });
+
+        if(w.link){
+          lbLink.href = w.link;
+          lbLink.style.display = "inline-flex";
+          lbLink.textContent = "link";
+        }
+
+        // 右一覧：動画があっても、必ず画像一覧を出す
+        let list = [];
+        if(Array.isArray(w.images) && w.images.length){
+          list = w.images.slice();
+          if(w.image && !list.includes(w.image)) list.unshift(w.image);
+        }else if(w.image){
+          list = [w.image];
+        }
+
+        lbList.innerHTML = "";
+
+        const hasVideo = !!((w.youtube && String(w.youtube).trim()) || (w.video && String(w.video).trim()));
+        let firstBtn = null;
+
+        // VIDEOサムネ（あれば先頭）
+        if(hasVideo){
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "lb__thumbBtn";
+
+          const im = document.createElement("img");
+          im.src = w.image || (list[0] || "");
+          im.alt = (w.title || "") + " video";
+          im.loading = "lazy";
+          im.decoding = "async";
+          btn.appendChild(im);
+
+          btn.addEventListener("click", ()=>{
+            showVideoInMain(w);
+            setCurrentThumb(btn);
+          });
+
+          lbList.appendChild(btn);
+          firstBtn = firstBtn || btn;
+        }
+
+        // 画像サムネ
+        list.forEach((src, idx)=>{
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "lb__thumbBtn";
+
+          const im = document.createElement("img");
+          im.src = src;
+          im.alt = (w.title || "") + " " + (idx+1);
+          im.loading = "lazy";
+          im.decoding = "async";
+          btn.appendChild(im);
+
+          btn.addEventListener("click", ()=>{
+            setMainImage(src, w.title || "");
+            setCurrentThumb(btn);
+          });
+
+          lbList.appendChild(btn);
+          firstBtn = firstBtn || btn;
+        });
+
+        // 初期表示：動画があれば動画、なければ1枚目画像
+        if(hasVideo){
+          showVideoInMain(w);
+          if(firstBtn) setCurrentThumb(firstBtn);
+        }else if(list.length){
+          setMainImage(list[0], w.title || "");
+          if(firstBtn) setCurrentThumb(firstBtn);
+        }
+
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLB(){
+        clearLB();
+        lb.removeAttribute("open");
+        document.body.style.overflow = "";
+      }
+
+      lbClose.addEventListener("click", closeLB);
+      lb.addEventListener("click", (e)=>{ if(e.target === lb) closeLB(); });
+      window.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && lb.hasAttribute("open")) closeLB(); });
+
+      function renderGrid(){
+        gridEl.innerHTML = "";
+        const filtered = works.filter(match);
+        const sorted = getSorted(filtered);
+
+        sorted.forEach((w)=>{
+          const card = document.createElement("article");
+          card.className = "work";
+          card.tabIndex = 0;
+          card.setAttribute("role","button");
+          card.setAttribute("aria-label", (w.title||"work") + " details");
+
+          // ✅ 文字もサムネも含めてパネル全体クリック
+          card.addEventListener("click", ()=>openLB(w));
+          card.addEventListener("keydown", (e)=>{
+            if(e.key === "Enter" || e.key === " "){
+              e.preventDefault();
+              openLB(w);
+            }
+          });
+
+          const inner = document.createElement("div");
+          inner.className = "work__inner";
+
+          const thumb = document.createElement("div");
+          thumb.className = "thumb";
+
+          const img = document.createElement("img");
+          img.src = w.image;
+          img.alt = w.title || "";
+          img.loading = "lazy";
+          img.decoding = "async";
+          thumb.appendChild(img);
+
+          const cap = document.createElement("div");
+          cap.className = "cap";
+
+          const h = document.createElement("h3");
+          h.textContent = w.title || "(untitled)";
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          [w.year, w.medium, w.size].filter(Boolean).forEach(v=>{
+            const s = document.createElement("span");
+            s.textContent = v;
+            meta.appendChild(s);
+          });
+
+          const desc = document.createElement("p");
+          desc.className = "desc";
+          desc.textContent = w.desc || "";
+
+          const tagsBox = document.createElement("div");
+          tagsBox.className = "tags";
+          (w.tags||[]).forEach(t=>{
+            const tg = document.createElement("span");
+            tg.className = "tag";
+            tg.textContent = t;
+            tagsBox.appendChild(tg);
+          });
+
+          cap.appendChild(h);
+          cap.appendChild(meta);
+          if((w.desc||"").trim()) cap.appendChild(desc);
+          if((w.tags||[]).length) cap.appendChild(tagsBox);
+
+          inner.appendChild(thumb);
+          inner.appendChild(cap);
+          card.appendChild(inner);
+          gridEl.appendChild(card);
+        });
+
+        masonry.refresh();
+      }
+
+      sortSel.addEventListener("change", renderGrid);
+
+      renderChips();
+      renderGrid();
+    })();
   </script>
 </body>
 </html>
