@@ -665,6 +665,38 @@
     display: none !important;
   }
 }
+/* ===== mobile only: tighten gaps (NO other changes) ===== */
+@media (max-width: 520px){
+
+  /* ① 赤丸：左右の余白を削る（全体パネルを画面ギリギリへ） */
+  .wrap{
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  /* パネル内の左右余白も詰める（効くクラスだけ適用されればOK） */
+  .panel .in,
+  .panel .inner,
+  .panel .content{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  /* ② 赤丸：列間・カード間の隙間を細く（Pinterestくらい） */
+  :root{
+    --grid-gap: 8px !important;   /* ← ここが“列間の隙間” */
+  }
+
+  /* ③ 青丸：画像とタイトルの間／タイトル周りの余白を細く */
+  .cap{
+    padding: 6px 10px 10px !important; /* 上を細くして画像⇄タイトルを詰める */
+  }
+  .cap h3{
+    margin: 0 !important;
+    font-size: 14px !important;        /* タイトル文字を小さく */
+    line-height: 1.2 !important;
+  }
+}
   </style>
 </head>
 
