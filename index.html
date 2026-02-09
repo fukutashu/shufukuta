@@ -584,6 +584,76 @@
     height: 0px;
   }
 }
+/* =========================
+   mobile nav fix (ADD ONLY)
+   - nav is ALWAYS horizontal (scroll if needed)
+   - nav curtain only stronger
+   - brand/name curtain untouched
+   ========================= */
+@media (max-width: 520px){
+
+  /* 端寄りすぎ対策：ほんの少し内側へ（好みで 8〜14px） */
+  :root{ --topInset: 10px; }
+
+  header{
+    padding-left: var(--topInset) !important;
+    padding-right: var(--topInset) !important;
+  }
+
+  /* ✅ 以前入れた “header全体に幕” をモバイルだけ殺す（名前側を巻き込まないため） */
+  header::before,
+  .header::before{
+    content: none !important;
+  }
+
+  /* ✅ ナビは「横一列固定」：入りきらない時は横スクロール（Pinterest系の気持ち） */
+  header .site-nav,
+  header nav.site-nav{
+    position: relative !important;
+
+    display: flex !important;
+    flex-wrap: nowrap !important;        /* ← 改行させない */
+    white-space: nowrap !important;      /* ← テキストも改行させない */
+    overflow-x: auto !important;         /* ← 入らない分は横スクロール */
+    -webkit-overflow-scrolling: touch;
+
+    gap: 10px !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+
+    padding: 6px 10px !important;        /* 幕の内側余白 */
+    border-radius: 14px !important;
+  }
+
+  /* スクロールバー目立たせない（iOSはほぼ出ないけど保険） */
+  header .site-nav::-webkit-scrollbar{ height: 0; }
+
+  /* ✅ “ナビだけ” 濃い幕（名前側は触らない） */
+  header .site-nav::before{
+    content: "" !important;
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,.58) !important; /* ←濃さはここ */
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 14px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* リンクは幕より前へ */
+  header .site-nav a{
+    position: relative;
+    z-index: 1;
+    padding: 2px 0 !important;
+  }
+
+  /* スラッシュの間隔もスマホだけ少し詰める（横に収めやすく） */
+  header .site-nav a:not(:last-child)::after{
+    margin-left: 8px !important;
+  }
+}
   </style>
 </head>
 
