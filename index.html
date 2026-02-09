@@ -8,34 +8,65 @@
 
   <style>
     :root{
-      --bg:#f2f0ea;
+      /* =========================
+         1) 全体トーン（色の司令塔）
+         ここだけ触ると全体の“気配”が変わる
+         ========================= */
 
-      --ink:   rgba(16,22,22,.88);
-      --text:  rgba(16,22,22,.82);
-      --muted: rgba(16,22,22,.58);
-      --faint: rgba(16,22,22,.40);
+      --bg:#f2f0ea; /* 背景のベース（白すぎない紙） */
 
+      /* ▼文字色（真っ黒NG、青緑ニュアンスの墨）
+         ・濃くする → 末尾の .88/.62 を上げる
+         ・淡くする → 末尾の .88/.62 を下げる
+      */
+      --ink:   rgba(16,22,22,.88); /* 見出し/名前などの濃い文字 */
+      --text:  rgba(16,22,22,.82); /* 本文 */
+      --muted: rgba(16,22,22,.58); /* ラベル/補助 */
+      --faint: rgba(16,22,22,.40); /* フッター等 */
+
+      /* ▼アクセント（ホバーやactiveの色）
+         ・緑っぽく → Gを上げる
+         ・青っぽく → Bを上げる
+      */
       --accent:  rgba(64,92,92,.78);
       --accent2: rgba(64,92,92,.42);
 
-      --panel:   rgba(230,236,242,.20);
-      --panel2:  rgba(230,236,242,.12);
+      /* ▼パネルの“色”と“不透明度” ←今回の主役
+         ・パネルをもっと透明に → alpha(最後)を下げる（例 .22 → .16）
+         ・もう少し存在感 → alphaを上げる（例 .22 → .28）
+         ・もっと青み → RGBのBを少し上げる
+      */
+      --panel:   rgba(230,236,242,.20); /* 青み無彩色グレー（薄い） */
+      --panel2:  rgba(230,236,242,.12); /* さらに薄い（重ね用） */
 
-      /* ✅ 全角 .６ → 半角 .6 に修正 */
-      --line:  rgba(16,22,22,.6);
+      /* ▼線（境界を強く見せないため薄め）
+         ・線が目立つ → alpha上げる
+         ・線を消す → alpha下げる
+      */
+      --line:  rgba(16,22,22,.６);
       --line2: rgba(16,22,22,.3);
 
+      /* =========================
+         2) レイアウト
+         ========================= */
       --max:1040px;
       --pad:clamp(16px,3vw,28px);
       --r:14px;
-      --scrimTop: 120px;
+      --scrimTop: 120px; /* 下の白スクラム開始位置（ヘッダー高さに合わせる） */
 
+      /* =========================
+         3) フォント（外部読み込みなし縛り）
+         ・名前だけ“オーソドックスでかっこいい”寄せ
+         ========================= */
+
+      /* 本文：日本語の可読性重視 */
       --sans:
         -apple-system, BlinkMacSystemFont,
         "SF Pro Text","SF Pro Display",
         "Hiragino Sans","Hiragino Kaku Gothic ProN",
         "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
 
+      /* 名前専用：英数がキリッと出る順（外部なし） */
       --brand:
         -apple-system, BlinkMacSystemFont,
         "SF Pro Display","SF Pro Text",
@@ -43,6 +74,7 @@
         "Hiragino Sans","Hiragino Kaku Gothic ProN",
         "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
 
+      /* ラベル：等幅で雰囲気 */
       --mono:
         ui-monospace, SFMono-Regular, Menlo, Monaco,
         Consolas, "Liberation Mono", "Noto Sans Mono", monospace;
@@ -57,11 +89,13 @@
       font-family:var(--sans);
       background: var(--bg);
 
+      /* ▼背景画像（相対パス固定） */
       background-image: url("img/bg-board.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
 
+      /* ▼文字のレンダリングを綺麗に（表示には出ないけど効く） */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: geometricPrecision;
@@ -307,63 +341,66 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 150px; }
     }
+    /* ===== mobile only: improve nav readability without changing font/layout ===== */
+@media (max-width: 520px){
 
-    /* ✅ mobile only: 「ナビだけ」works っぽいガラス箱 */
-    @media (max-width: 520px){
-      :root{ --topInset: 10px; } /* 8〜14で調整 */
+  /* ナビ全体に“薄い下地”を敷く（文字の印象はそのまま） */
+  header, .header, .nav, nav{
+    position: relative;
+  }
 
-      header{
-        align-items:flex-start;
-      }
+  header::before,
+  .header::before,
+  .nav::before,
+  nav::before{
+    content: "";
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: -6px;
+    bottom: -6px;
 
-      header .brand{
-        margin-left: var(--topInset);
-      }
+    /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
+    background: rgba(255,255,255,0.38);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
 
-      header nav{
-        margin-right: var(--topInset);
+    /* “細めで控えめ”のまま、境界だけうっすら */
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 14px;
 
-        display:flex;
-        flex-wrap: wrap;             /* 収まらなければ2行 */
-        justify-content:flex-end;
-        align-items:center;
-        gap:10px;
+    /* 文字の後ろに回す */
+    z-index: 0;
+    pointer-events: none;
+  }
 
-        max-width: 66vw;
-        position: relative;
-        padding: 10px 14px;
-        border-radius: 16px;
-
-        background: rgba(255,255,255,.58);
-        -webkit-backdrop-filter: blur(6px);
-        backdrop-filter: blur(6px);
-        border: 1px solid rgba(255,255,255,.25);
-        box-shadow: 0 10px 24px rgba(0,0,0,.10);
-      }
-
-      header nav a{
-        white-space: nowrap;
-      }
-    }
+  /* ナビ文字・リンクを膜より前に */
+  header *,
+  .header *,
+  .nav *,
+  nav *{
+    position: relative;
+    z-index: 1;
+  }
+}
   </style>
 </head>
 
-<body data-page="cv">
+<body>
   <div class="content-scrim" aria-hidden="true"></div>
 
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="name">Shu Fukuta</div>
-        <div class="sub">cv</div>
+        <div class="name">Shu Fukuta / 福田 周</div>
+        <div class="sub">artist site / statement</div>
       </div>
-
       <nav>
-        <a data-page="cv" href="index.html">cv</a>
-        <a data-page="works" href="works.html">works</a>
-        <a data-page="exhibitions" href="exhibitions.html">exhibitions</a>
-        <a data-page="blog" href="blog.html">blog</a>
-        <a data-page="contact" href="contact.html">contact</a>
+        <a class="active" href="index.html">cv</a>
+        <a href="works.html">works</a>
+        <a href="exhibitions.html">exhibitions</a>
+        <a href="blog.html">blog</a>
+        <a href="contact.html">contact</a>
       </nav>
     </header>
 
@@ -399,15 +436,6 @@
       <div>index / tuned</div>
     </footer>
   </div>
-
-  <!-- ✅ active を自動付与（class="active" 手作業いらない） -->
-  <script>
-    (() => {
-      const p = document.body.dataset.page;
-      document.querySelectorAll("header nav a").forEach(a => {
-        if (a.dataset.page === p) a.classList.add("active");
-      });
-    })();
-  </script>
 </body>
+
 </html>
