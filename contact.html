@@ -284,46 +284,50 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 160px; }
     }
-  /* ===== mobile only: improve nav readability without changing font/layout ===== */
+/* ===== mobile ONLY: thumbnail = image only (no title, no card panel) ===== */
 @media (max-width: 520px){
 
-  /* ナビ全体に“薄い下地”を敷く（文字の印象はそのまま） */
-  header, .header, .nav, nav{
-    position: relative;
+  /* 一覧サムネ内のタイトル（キャプション）を消す */
+  .grid .cap,
+  .grid .cap h3{
+    display: none !important;
   }
 
-  header::before,
-  .header::before,
-  .nav::before,
-  nav::before{
-    content: "";
-    position: absolute;
-    left: -8px;
-    right: -8px;
-    top: -6px;
-    bottom: -6px;
-
-    /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
-    background: rgba(255,255,255,0.38);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-
-    /* “細めで控えめ”のまま、境界だけうっすら */
-    border: 1px solid rgba(255,255,255,0.22);
-    border-radius: 14px;
-
-    /* 文字の後ろに回す */
-    z-index: 0;
-    pointer-events: none;
+  /* 個々の作品パネル（白カード）を無効化：背景/影/余白を消す */
+  .grid .work__inner{
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
   }
 
-  /* ナビ文字・リンクを膜より前に */
-  header *,
-  .header *,
-  .nav *,
-  nav *{
-    position: relative;
-    z-index: 1;
+  /* 角丸を「今のサムネの角丸」引き継ぎ：画像側を優先して丸める */
+  .grid .work__thumb,
+  .grid .thumb,
+  .grid .media{
+    border-radius: inherit !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+
+  /* 画像自体も角丸維持（上のコンテナが無い場合の保険） */
+  .grid img{
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: inherit !important;
+  }
+
+  /* hover/押下の「浮き」効果を画像に付与（hover対応端末＋スマホ押下） */
+  @media (hover:hover){
+    .grid .work:hover img{
+      transform: translateY(-2px);
+    }
+  }
+  .grid .work:active img{
+    transform: translateY(-1px);
+  }
+  .grid .work img{
+    transition: transform .12s ease;
   }
 }
   </style>
