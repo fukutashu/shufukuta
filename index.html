@@ -507,6 +507,83 @@
     white-space: nowrap !important;
   }
 }
+/* ===== mobile only: split curtains (brand stays subtle / nav stronger) + keep nav horizontal ===== */
+@media (max-width: 520px){
+
+  /* 0) いま入ってる「header全体に幕」を無効化（←これが崩れの主因） */
+  header::before{
+    content: none !important;
+  }
+
+  /* 1) ヘッダー左右の“端寄り”を少しだけ内側に */
+  header{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  /* 2) 名前側（brand）の幕：今の薄さを維持（濃くしない） */
+  header .brand{
+    position: relative;
+    z-index: 2;
+    padding: 8px 10px;           /* ← ここで当たり判定/余白だけ整える */
+    border-radius: 14px;
+  }
+  header .brand::before{
+    content:"";
+    position:absolute;
+    inset: -6px -8px;
+    background: rgba(255,255,255,0.18);   /* ←名前側は薄いまま */
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 14px;
+    z-index: 0;
+    pointer-events:none;
+  }
+  header .brand *{
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 3) ナビ側：幕は“ナビだけ”濃く。横一列固定。 */
+  header nav{
+    position: relative;
+    z-index: 2;
+
+    /* 横一列固定（折り返し禁止） */
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+
+    /* 画面に入りきらない時は横スクロールで逃がす */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    /* 見た目 */
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+  header nav::before{
+    content:"";
+    position:absolute;
+    inset: -6px -8px;
+    background: rgba(255,255,255,0.58) !important; /* ←ナビだけ濃くする場所 */
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 14px;
+    z-index: 0;
+    pointer-events:none;
+  }
+  header nav *{
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 4) iOSでスクロールバーを目立たせない（任意） */
+  header nav::-webkit-scrollbar{
+    height: 0px;
+  }
+}
   </style>
 </head>
 
