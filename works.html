@@ -697,6 +697,56 @@
     line-height: 1.2 !important;
   }
 }
+/* ===== mobile only: keep top controls inset, keep grid wide ===== */
+@media (max-width: 520px){
+
+  /* 青丸：topbar / chips / sort を“内側に戻す” */
+  :root{ --inPadMob: 2px; } /* ← ここが青丸の左右余白。好みで14〜18 */
+
+  .panel > .in{
+    padding-left: var(--inPadMob) !important;
+    padding-right: var(--inPadMob) !important;
+  }
+
+  /* でも作品グリッドは今のまま“広く”見せたい → グリッドだけ外に広げる */
+  .panel > .in > .grid{
+    margin-left: calc(-1 * var(--inPadMob)) !important;
+    margin-right: calc(-1 * var(--inPadMob)) !important;
+    width: calc(100% + var(--inPadMob) + var(--inPadMob)) !important;
+
+    /* パネル端にピッタリすぎないように、極細の余白だけ残す（赤い細線くらい） */
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+  }
+
+  /* 赤丸：隙間をさらに細く（Pinterest寄せ） */
+  :root{ --grid-gap: 1px !important; } /* ← もっと細く→6px */
+
+  /* サムネ：タイトル以外を表示しない（一覧だけ） */
+  .grid .meta,
+  .grid .desc,
+  .grid .tags{
+    display: none !important;
+  }
+
+  /* 青丸：タイトル周りを詰めて、文字を小さく */
+  .cap{
+    padding: 2px 2px 2px !important;
+  }
+  .cap h3{
+    margin: 0 !important;
+    font-size: 9px !important;     /* ← 小さめ。13pxでもOK */
+    line-height: 1.2 !important;
+    font-family: var(--brand) !important;  /* 大人っぽくシンプル寄り */
+    letter-spacing: .02em !important;
+    font-weight: 500 !important;
+  }
+
+  /* タイトルの白ベタ（カード背景）を透明寄りに */
+  .work__inner{
+    background: rgba(255,255,255,.65) !important; /* ← もっと透明→.70 / もう少し白→.85 */
+  }
+}
   </style>
 </head>
 
