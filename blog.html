@@ -5,22 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Blog / Shu Fukuta</title>
   <meta name="description" content="Blog — Shu Fukuta / 福田 周" />
+
   <style>
     :root{
-      /* =========================
-         0) 色（ここが全体の司令塔）
-         ========================= */
       --bg:#f2f0ea;
 
-      --ink:   rgba(16,22,22,.88); /* 濃い文字（見出し等） */
-      --text:  rgba(16,22,22,.82); /* 本文 */
-      --muted: rgba(16,22,22,.58); /* 補助 */
-      --faint: rgba(16,22,22,.40); /* さらに薄い */
+      --ink:   rgba(16,22,22,.88);
+      --text:  rgba(16,22,22,.82);
+      --muted: rgba(16,22,22,.58);
+      --faint: rgba(16,22,22,.40);
 
       --accent:  rgba(64,92,92,.78);
       --accent2: rgba(64,92,92,.42);
 
-      /* パネル：青み無彩色グレー＋透明（薄い） */
       --panel:   rgba(230,236,242,.18);
       --panel2:  rgba(230,236,242,.10);
 
@@ -48,7 +45,7 @@
         ui-monospace, SFMono-Regular, Menlo, Monaco,
         Consolas, "Liberation Mono","Noto Sans Mono", monospace;
 
-      --scrimTop: 140px; /* 下の白スクラム開始（ヘッダー高さ） */
+      --scrimTop: 140px;
     }
 
     *{ box-sizing:border-box; }
@@ -70,7 +67,6 @@
       text-rendering:geometricPrecision;
     }
 
-    /* 上：薄いベール（背景を見せる） */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -87,7 +83,6 @@
       z-index:-2;
     }
 
-    /* 下：更新領域だけ少し白くして読みやすく */
     .content-scrim{
       position:fixed;
       left:0; right:0; bottom:0;
@@ -102,7 +97,6 @@
       z-index:-1;
     }
 
-    /* 極薄質感 */
     body::after{
       content:"";
       position:fixed; inset:0;
@@ -130,7 +124,6 @@
       position:relative;
     }
 
-    /* ===== header / nav（indexと同じ） ===== */
     header{
       display:flex;
       align-items:flex-end;
@@ -154,6 +147,7 @@
       color:var(--muted);
       letter-spacing:.02em;
     }
+
     nav{
       display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; align-items:center;
       font-family: var(--mono); font-size:12px; color:var(--muted);
@@ -167,7 +161,6 @@
     }
     nav a:hover{ color: var(--ink); }
 
-    /* ===== panel ===== */
     .panel{
       margin-top:18px;
       background: var(--panel);
@@ -178,8 +171,6 @@
       position:relative;
       overflow:hidden;
     }
-
-    /* 際だけ馴染ませる（中心は残す） */
     .panel::before{
       content:"";
       position:absolute; inset:0;
@@ -197,9 +188,8 @@
           rgba(242,240,234,0) calc(100% - 18px),
           rgba(242,240,234,.58)
         );
-      opacity:.36; /* 溶け強さ */
+      opacity:.36;
     }
-
     .panel::after{
       content:"";
       position:absolute; inset:-10%;
@@ -212,11 +202,10 @@
           rgba(255,255,255,0) 14px,
           rgba(255,255,255,0) 26px
         );
-      opacity:.07; /* サラサラ */
+      opacity:.07;
       filter: blur(.35px);
       transform: translateY(-4%);
     }
-
     .panel .in{ padding: calc(var(--pad)*1.1); position:relative; z-index:1; }
 
     .topbar{
@@ -316,6 +305,28 @@
       color: var(--text);
     }
 
+    /* ✅ 画像表示（ここが追加ポイント） */
+    .imgs{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    @media (max-width: 640px){
+      .imgs{ grid-template-columns: 1fr; }
+    }
+    .img{
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid var(--line2);
+      background: rgba(255,255,255,.12);
+    }
+    .img img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+
     .add{
       margin-top:10px;
       padding-top:10px;
@@ -345,52 +356,6 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 168px; }
     }
-   /* ===== mobile ONLY: thumbnail = image only (no title, no card panel) ===== */
-@media (max-width: 520px){
-
-  /* 一覧サムネ内のタイトル（キャプション）を消す */
-  .grid .cap,
-  .grid .cap h3{
-    display: none !important;
-  }
-
-  /* 個々の作品パネル（白カード）を無効化：背景/影/余白を消す */
-  .grid .work__inner{
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-  }
-
-  /* 角丸を「今のサムネの角丸」引き継ぎ：画像側を優先して丸める */
-  .grid .work__thumb,
-  .grid .thumb,
-  .grid .media{
-    border-radius: inherit !important;
-    overflow: hidden !important;
-    background: transparent !important;
-  }
-
-  /* 画像自体も角丸維持（上のコンテナが無い場合の保険） */
-  .grid img{
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    border-radius: inherit !important;
-  }
-
-  /* hover/押下の「浮き」効果を画像に付与（hover対応端末＋スマホ押下） */
-  @media (hover:hover){
-    .grid .work:hover img{
-      transform: translateY(-2px);
-    }
-  }
-  .grid .work:active img{
-    transform: translateY(-1px);
-  }
-  .grid .work img{
-    transition: transform .12s ease;
-  }
-}
   </style>
 </head>
 
@@ -406,6 +371,7 @@
       <nav>
         <a href="index.html">cv</a>
         <a href="works.html">works</a>
+        <a href="exhibitions.html">exhibitions</a>
         <a class="active" href="blog.html">blog</a>
         <a href="contact.html">contact</a>
       </nav>
@@ -415,7 +381,7 @@
       <div class="in">
         <div class="topbar">
           <h1 class="title">Blog</h1>
-          <p class="hint">edit JSON in this file</p>
+          <p class="hint">edit: data/blog.json</p>
         </div>
 
         <div class="chips" id="chips"></div>
@@ -425,106 +391,139 @@
 
     <footer>
       <div>© Shu Fukuta</div>
-      <div>blog / local JSON</div>
+      <div>blog</div>
     </footer>
   </div>
 
-  <!-- =========================
-       更新はここだけ（JSON）
-       entries を追加して保存する
-       ========================= -->
-  <script type="application/json" id="blogData">
-  {
-    "entries":[
-      {
-        "date":"2026-02-06",
-        "title":"first post",
-        "tags":["note"],
-        "body":"・一言\n・作業ログ\n・次やること",
-        "add":[
-          {"date":"2026-02-06","text":"追記はここに足す"}
-        ]
-      }
-    ]
-  }
-  </script>
-
   <script>
-    /* ========== 表示ロジック（触らなくてOK） ========== */
-    const data = JSON.parse(document.getElementById("blogData").textContent);
-    const entries = (data.entries || []).slice().sort((a,b)=> (b.date||"").localeCompare(a.date||""));
-
-    const chipsEl = document.getElementById("chips");
-    const listEl  = document.getElementById("list");
-
-    const set = new Set();
-    entries.forEach(e => (e.tags||[]).forEach(t => set.add(t)));
-    const tags = ["all", ...Array.from(set)];
-
-    let active = "all";
-
-    function renderChips(){
-      chipsEl.innerHTML="";
-      tags.forEach(t=>{
-        const b=document.createElement("button");
-        b.className="chip";
-        b.type="button";
-        b.textContent=t;
-        b.setAttribute("aria-pressed", String(t===active));
-        b.onclick=()=>{ active=t; renderChips(); renderList(); };
-        chipsEl.appendChild(b);
-      });
+    async function loadBlog(){
+      const url = "data/blog.json?v=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
+      if(!res.ok) throw new Error("Failed to load blog.json: " + res.status);
+      return await res.json();
     }
 
-    function renderList(){
-      listEl.innerHTML="";
-      entries
-        .filter(e=> active==="all" || (e.tags||[]).includes(active))
-        .forEach(e=>{
-          const d=document.createElement("details");
-          d.className="entry";
+    function safeArr(v){ return Array.isArray(v) ? v : []; }
 
-          const s=document.createElement("summary");
+    (async ()=>{
+      let data;
+      try{
+        data = await loadBlog();
+      }catch(err){
+        console.error(err);
+        document.getElementById("list").innerHTML =
+          '<div style="font-family:var(--mono); color:var(--muted); padding:10px;">could not load <b>data/blog.json</b></div>';
+        return;
+      }
 
-          const left=document.createElement("div");
-          const date=document.createElement("p"); date.className="date"; date.textContent=e.date || "";
-          const title=document.createElement("p"); title.className="etitle"; title.textContent=e.title || "(untitled)";
-          left.appendChild(date); left.appendChild(title);
+      const entries = safeArr(data.entries)
+        .slice()
+        .sort((a,b)=> String(b.date||"").localeCompare(String(a.date||"")));
 
-          const right=document.createElement("div");
-          right.className="right";
-          right.textContent=(e.tags && e.tags.length) ? ("#"+e.tags.join("  #")) : "";
+      const chipsEl = document.getElementById("chips");
+      const listEl  = document.getElementById("list");
 
-          s.appendChild(left);
-          s.appendChild(right);
+      // tags
+      const set = new Set();
+      entries.forEach(e => safeArr(e.tags).forEach(t => set.add(String(t).trim())));
+      const tags = ["all", ...Array.from(set).filter(Boolean).sort((a,b)=>a.localeCompare(b,"ja"))];
 
-          const body=document.createElement("div"); body.className="body";
-          const text=document.createElement("p"); text.className="text"; text.textContent=e.body || "";
-          body.appendChild(text);
+      let active = "all";
 
-          if(e.add && e.add.length){
-            const add=document.createElement("div"); add.className="add";
-            const lab=document.createElement("p"); lab.className="alabel"; lab.textContent="add";
-            add.appendChild(lab);
-
-            const ul=document.createElement("ul");
-            e.add.forEach(a=>{
-              const li=document.createElement("li");
-              li.textContent=`${a.date || ""} ${a.text || ""}`;
-              ul.appendChild(li);
-            });
-            add.appendChild(ul);
-            body.appendChild(add);
-          }
-
-          d.appendChild(s);
-          d.appendChild(body);
-          listEl.appendChild(d);
+      function renderChips(){
+        chipsEl.innerHTML="";
+        tags.forEach(t=>{
+          const b=document.createElement("button");
+          b.className="chip";
+          b.type="button";
+          b.textContent=t;
+          b.setAttribute("aria-pressed", String(t===active));
+          b.onclick=()=>{ active=t; renderChips(); renderList(); };
+          chipsEl.appendChild(b);
         });
-    }
+      }
 
-    renderChips();
-    renderList();
+      function renderList(){
+        listEl.innerHTML="";
+
+        entries
+          .filter(e=> active==="all" || safeArr(e.tags).includes(active))
+          .forEach(e=>{
+            const d=document.createElement("details");
+            d.className="entry";
+
+            const s=document.createElement("summary");
+
+            const left=document.createElement("div");
+            const date=document.createElement("p"); date.className="date"; date.textContent=e.date || "";
+            const title=document.createElement("p"); title.className="etitle"; title.textContent=e.title || "(untitled)";
+            left.appendChild(date); left.appendChild(title);
+
+            const right=document.createElement("div");
+            right.className="right";
+            const tagText = safeArr(e.tags).filter(Boolean);
+            right.textContent = tagText.length ? ("#"+tagText.join("  #")) : "";
+
+            s.appendChild(left);
+            s.appendChild(right);
+
+            const body=document.createElement("div"); body.className="body";
+
+            const text=document.createElement("p");
+            text.className="text";
+            text.textContent = e.body || "";
+            body.appendChild(text);
+
+            // ✅ images
+            const imgs = safeArr(e.images);
+            if(imgs.length){
+              const wrap = document.createElement("div");
+              wrap.className = "imgs";
+
+              imgs.forEach(im=>{
+                if(!im || !im.src) return;
+                const box = document.createElement("div");
+                box.className = "img";
+                const img = document.createElement("img");
+                img.src = im.src;
+                img.alt = im.alt || "";
+                img.loading = "lazy";
+                img.decoding = "async";
+                box.appendChild(img);
+                wrap.appendChild(box);
+              });
+
+              if(wrap.childElementCount){
+                body.appendChild(wrap);
+              }
+            }
+
+            // add
+            const adds = safeArr(e.add);
+            if(adds.length){
+              const add=document.createElement("div"); add.className="add";
+              const lab=document.createElement("p"); lab.className="alabel"; lab.textContent="add";
+              add.appendChild(lab);
+
+              const ul=document.createElement("ul");
+              adds.forEach(a=>{
+                const li=document.createElement("li");
+                li.textContent=`${a.date || ""} ${a.text || ""}`.trim();
+                ul.appendChild(li);
+              });
+              add.appendChild(ul);
+              body.appendChild(add);
+            }
+
+            d.appendChild(s);
+            d.appendChild(body);
+            listEl.appendChild(d);
+          });
+      }
+
+      renderChips();
+      renderList();
+    })();
   </script>
 </body>
 </html>
