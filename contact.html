@@ -8,34 +8,20 @@
 
   <style>
     :root{
-      /* =========================
-         全体トーン（blog.html と同一）
-         ========================= */
-
       --bg:#f2f0ea;
-
-      /* 文字色：真っ黒・真っ白は使わない */
-      --ink:   rgba(16,22,22,.88); /* 見出し・強調 */
-      --text:  rgba(16,22,22,.82); /* 本文 */
-      --muted: rgba(16,22,22,.58); /* 補助 */
-      --faint: rgba(16,22,22,.40); /* フッター */
-
-      /* アクセント（hover / active） */
+      --ink:   rgba(16,22,22,.88);
+      --text:  rgba(16,22,22,.82);
+      --muted: rgba(16,22,22,.58);
+      --faint: rgba(16,22,22,.40);
       --accent:  rgba(64,92,92,.78);
       --accent2: rgba(64,92,92,.42);
-
-      /* パネル色：青みがかった無彩色グレー＋透明
-         → 白すぎると感じたら最後の .18 を下げる（.14 など） */
       --panel:  rgba(230,236,242,.18);
-
-      /* 境界線は極薄 */
       --line2: rgba(16,22,22,.06);
 
       --max:900px;
       --pad:clamp(16px,3vw,28px);
       --r:14px;
 
-      /* フォント（外部読み込みなし） */
       --sans:-apple-system,BlinkMacSystemFont,
         "SF Pro Text","SF Pro Display",
         "Hiragino Sans","Hiragino Kaku Gothic ProN",
@@ -50,7 +36,6 @@
       --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,
         Consolas,"Liberation Mono","Noto Sans Mono",monospace;
 
-      /* 下だけ白くするスクラム開始位置（ヘッダー高さ） */
       --scrimTop: 140px;
     }
 
@@ -62,21 +47,15 @@
       font-family:var(--sans);
       color:var(--text);
       background: var(--bg);
-
-      /* 背景画像（blog と同一） */
       background-image:url("img/bg-board.jpg");
       background-size:cover;
       background-position:center;
       background-repeat:no-repeat;
-
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       text-rendering:geometricPrecision;
     }
 
-    /* =========================
-       上：背景を見せる薄いベール（blog と同一）
-       ========================= */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -93,9 +72,6 @@
       z-index:-2;
     }
 
-    /* =========================
-       下：コンテンツ領域だけ白く（blog と同一）
-       ========================= */
     .content-scrim{
       position:fixed;
       left:0; right:0; bottom:0;
@@ -110,9 +86,6 @@
       z-index:-1;
     }
 
-    /* =========================
-       極薄ノイズ（2chの空気感）
-       ========================= */
     body::after{
       content:"";
       position:fixed; inset:0;
@@ -140,9 +113,6 @@
       position:relative;
     }
 
-    /* =========================
-       header / nav（index・blog と完全共通）
-       ========================= */
     header{
       display:flex;
       align-items:flex-end;
@@ -152,11 +122,7 @@
       border-bottom:1px solid var(--line2);
     }
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
+    .brand{ display:flex; flex-direction:column; gap:4px; }
     .brand .name{
       font-family:var(--brand);
       font-size:clamp(18px,2.2vw,22px);
@@ -193,9 +159,7 @@
       margin-left:10px;
       color: rgba(16,22,22,.22);
     }
-    nav a.active{
-      color:var(--ink);
-    }
+    nav a.active{ color:var(--ink); }
     nav a.active::before{
       content:"";
       position:absolute;
@@ -209,9 +173,6 @@
     }
     nav a:hover{ color:var(--ink); }
 
-    /* =========================
-       panel（blog と同一トーン）
-       ========================= */
     .panel{
       margin-top:22px;
       background:var(--panel);
@@ -223,8 +184,6 @@
       overflow:hidden;
       padding: calc(var(--pad)*1.1);
     }
-
-    /* 際だけを自然に溶かす（blog と同一） */
     .panel::before{
       content:"";
       position:absolute; inset:0;
@@ -244,18 +203,11 @@
         );
       opacity:.36;
     }
+    .panel > *{ position:relative; z-index:1; }
 
-    .panel > *{
-      position:relative;
-      z-index:1;
-    }
+    .item{ margin-bottom:20px; }
+    .item:last-child{ margin-bottom:0; }
 
-    /* =========================
-       contact 中身
-       ========================= */
-    .item{
-      margin-bottom:20px;
-    }
     .label{
       font-family:var(--mono);
       font-size:12px;
@@ -284,52 +236,6 @@
     @media (max-width: 900px){
       :root{ --scrimTop: 160px; }
     }
-/* ===== mobile ONLY: thumbnail = image only (no title, no card panel) ===== */
-@media (max-width: 520px){
-
-  /* 一覧サムネ内のタイトル（キャプション）を消す */
-  .grid .cap,
-  .grid .cap h3{
-    display: none !important;
-  }
-
-  /* 個々の作品パネル（白カード）を無効化：背景/影/余白を消す */
-  .grid .work__inner{
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-  }
-
-  /* 角丸を「今のサムネの角丸」引き継ぎ：画像側を優先して丸める */
-  .grid .work__thumb,
-  .grid .thumb,
-  .grid .media{
-    border-radius: inherit !important;
-    overflow: hidden !important;
-    background: transparent !important;
-  }
-
-  /* 画像自体も角丸維持（上のコンテナが無い場合の保険） */
-  .grid img{
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    border-radius: inherit !important;
-  }
-
-  /* hover/押下の「浮き」効果を画像に付与（hover対応端末＋スマホ押下） */
-  @media (hover:hover){
-    .grid .work:hover img{
-      transform: translateY(-2px);
-    }
-  }
-  .grid .work:active img{
-    transform: translateY(-1px);
-  }
-  .grid .work img{
-    transition: transform .12s ease;
-  }
-}
   </style>
 </head>
 
@@ -354,14 +260,30 @@
       <div class="item">
         <div class="label">email</div>
         <div class="value">
-          <a href="mailto:fukutashu@gmail.com">yourmail@example.com</a>
+          <a href="mailto:fukutashu@gmail.com">fukutashu@gmail.com</a>
         </div>
       </div>
 
       <div class="item">
         <div class="label">instagram</div>
         <div class="value">
-          <a href="https://instagram.com/yourid" target="_blank">@fukuta_shu</a>
+          <a href="https://instagram.com/fukuta_shu" target="_blank" rel="noopener">@fukuta_shu</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="label">youtube</div>
+        <div class="value">
+          <!-- ↓ここを自分のチャンネルURLに差し替え -->
+          <a href="https://youtube.com/channel/UCPuNikOlButEKmT5AQQxS_w?si=y_jiCqKmhDhAmZje" target="_blank" rel="noopener">YouTube</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="label">twitter (x)</div>
+        <div class="value">
+          <!-- ↓ここを自分のXのURLに差し替え -->
+          <a href="https://x.com/fukutashu0523?s=21" target="_blank" rel="noopener">@yourid</a>
         </div>
       </div>
     </section>
