@@ -1,56 +1,63 @@
-/* assets/common.css
-   共通：モバイルでヘッダー/ナビの“ブレ”を抑えるための上書きCSS
-*/
+/* =========================
+   common.css
+   モバイル版ヘッダー表示のブレ防止・統一用
+   ========================= */
 
-html{
+/* iOS Safari 文字サイズ暴走防止 */
+html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
-/* ヘッダーの基本：どのページでも同じ見え方に寄せる */
-header{
-  display:flex;
-  justify-content:space-between;
-  gap:18px;
-  flex-wrap:wrap;
-  align-items:flex-start;
+/* ヘッダー共通レイアウト */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
-.brand .name{
+/* 名前まわり */
+.brand,
+.brand .name {
   line-height: 1.15;
+  white-space: nowrap;
 }
 
-nav{
+/* ナビ */
+nav {
   line-height: 1.6;
 }
 
-/* ===== mobile only: improve nav readability ===== */
-@media (max-width: 520px){
-  header{
+/* ===== モバイル専用 ===== */
+@media (max-width: 520px) {
+
+  header {
     position: relative;
+    padding: 10px 12px;
   }
 
-  header::before{
+  /* 背景を統一して“ぶれ”を視覚的にも抑える */
+  header::before {
     content: "";
     position: absolute;
-    left: -8px;
-    right: -8px;
-    top: -6px;
-    bottom: -6px;
+    inset: 0;
 
-    background: rgba(255,255,255,0.38);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 
-    border: 1px solid rgba(255,255,255,0.22);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 14px;
 
     z-index: 0;
     pointer-events: none;
   }
 
-  header *{
+  header * {
     position: relative;
     z-index: 1;
   }
+
 }
