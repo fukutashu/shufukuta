@@ -866,6 +866,26 @@
     margin-right: var(--topInset) !important;
   }
 }
+/* ==== header normalize (works) : これより上の重複指定を潰す ==== */
+html{
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+.brand .name{ line-height:1.15; }
+nav{ line-height:1.6; }
+
+@media (max-width: 520px){
+  header{ padding:10px 12px; position:relative; }
+}
   </style>
   <link rel="stylesheet" href="assets/common.css">
 </head>
