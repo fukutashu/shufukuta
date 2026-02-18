@@ -41,6 +41,8 @@
         "Hiragino Sans","Hiragino Kaku Gothic ProN",
         "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
 
+      /* Masonry (Grid + JS) */
+      --masonry-row: 10px;
       --grid-gap: 16px;
     }
 
@@ -259,7 +261,9 @@
       box-shadow: 0 0 0 3px rgba(60,92,78,.14);
     }
 
-    /* ✅ Masonry: absolute layout（空欄ゼロ方式） */
+    /* =========================
+       ✅ Masonry: absolute layout（空欄ゼロ方式）
+       ========================= */
     .grid{
       position: relative;
       width: 100%;
@@ -270,18 +274,30 @@
       left: 0;
       top: 0;
       will-change: transform;
-      outline:none;
-      cursor:pointer;
+      align-self: auto;
     }
 
     @media (max-width: 900px){
       :root{ --scrimTop: 168px; --grid-gap: 12px; }
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
+
     @media (max-width: 520px){
       :root{ --grid-gap: 12px; }
+      .grid{ grid-template-columns: repeat(1, minmax(0, 1fr)); }
       .cap{ padding: 12px 14px 14px; }
       .cap h3{ font-size: 15px; }
       .desc{ font-size: 14px; }
+    }
+
+    @media (min-width: 1100px){
+      .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    .work{
+      outline:none;
+      cursor:pointer;
+      align-self:start;
     }
 
     .work__inner{
@@ -368,7 +384,9 @@
       border-radius: 999px;
     }
 
-    /* ===== Lightbox（あなたの見た目維持：メインだけ白壁） ===== */
+    /* =========================
+       ✅ Lightbox（元のまま）
+       ========================= */
     .lb{
       position:fixed;
       inset:0;
@@ -384,14 +402,16 @@
     .lb__panel{
       width:min(1160px, 100%);
       height: 92vh;
+
       background: rgba(12,12,13,.55);
       border: 1px solid rgba(255,255,255,.18);
       box-shadow: 0 18px 60px rgba(0,0,0,.45);
       border-radius: 16px;
       overflow:hidden;
       backdrop-filter: blur(6px);
+
       display:grid;
-      grid-template-rows: minmax(280px, 1fr) minmax(180px, 34vh);
+      grid-template-rows: minmax(0, 1fr) auto;
     }
 
     .lb__top{
@@ -407,13 +427,10 @@
         grid-template-columns: 1fr;
         grid-template-rows: minmax(0,1fr) auto;
       }
-      .lb__panel{
-        grid-template-rows: minmax(240px, 1fr) minmax(180px, 42vh);
-      }
     }
 
     .lb__main{
-      min-height:280px;
+      min-height:0;
       overflow:hidden;
       display:flex;
       align-items:center;
@@ -422,6 +439,7 @@
       background: rgba(255,255,255,.96);
       border-right: 1px solid rgba(255,255,255,.08);
     }
+
     .lb__main img,
     .lb__main video{
       width: 100%;
@@ -432,12 +450,12 @@
     }
     .lb__main iframe{
       width: 100%;
-      height: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
       display:block;
       border-radius: 12px;
       background:#000;
       border:0;
-      min-height: 280px;
     }
     .lb__main video{ background:#000; }
 
@@ -449,6 +467,7 @@
       border-left: 1px solid rgba(255,255,255,.10);
       padding: 12px;
     }
+
     @media (max-width: 900px){
       .lb__list{
         border-left: 0;
@@ -493,10 +512,34 @@
       box-shadow: 0 0 0 2px rgba(60,92,78,.28);
     }
 
+    .lb__panel{
+      grid-template-rows: minmax(280px, 1fr) minmax(180px, 34vh) !important;
+    }
     .lb__bottom{
-      min-height: 0;
-      overflow: auto;
+      min-height: 0 !important;
+      overflow: auto !important;
       -webkit-overflow-scrolling: touch;
+    }
+    .lb__desc{
+      max-height: 24vh !important;
+      overflow: auto !important;
+      padding-right: 6px;
+    }
+    .lb__main{ min-height: 280px !important; }
+    .lb__main iframe{
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 280px !important;
+      display: block !important;
+    }
+    @media (max-width: 860px){
+      .lb__panel{
+        grid-template-rows: minmax(240px, 1fr) minmax(180px, 42vh) !important;
+      }
+      .lb__desc{ max-height: 28vh !important; }
+    }
+
+    .lb__bottom{
       padding: 12px 14px 14px;
       background: rgba(12,12,13,.22);
       color: rgba(255,255,255,.90);
@@ -532,10 +575,6 @@
     }
 
     .lb__desc{
-      max-height: 24vh;
-      overflow: auto;
-      padding-right: 6px;
-
       background: rgba(0,0,0,.16);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 12px;
@@ -543,9 +582,6 @@
       font-size: 13px;
       line-height: 1.85;
       white-space: pre-wrap;
-    }
-    @media (max-width: 860px){
-      .lb__desc{ max-height: 28vh; }
     }
 
     .lb__actions{
@@ -584,28 +620,81 @@
       gap:10px;
       flex-wrap:wrap;
     }
-  </style>
 
-  <link rel="stylesheet" href="assets/common.css">
-  <script src="assets/site-nav.js" defer></script>
+    /* ===== 以下：あなたの「作品いじるな」条件を守るために、モバイルヘッダーだけ最小整理 =====
+       - 下地(膜)を header全体に一回だけ
+       - navだけ濃さを上げる
+       - 端のinsetだけ付ける
+       ※ grid / work / cap / タイトル表示 / 作品CSSには触れない
+    */
+    @media (max-width: 520px){
+      :root{ --topInset: 10px; }
+
+      /* header全体の膜（1回だけ） */
+      header{
+        position: relative;
+        padding-left: var(--topInset);
+        padding-right: var(--topInset);
+      }
+      header::before{
+        content:"";
+        position:absolute;
+        left:0; right:0; top:-6px; bottom:-6px;
+        background: rgba(255,255,255,0.18);
+        -webkit-backdrop-filter: blur(2px);
+        backdrop-filter: blur(2px);
+        border: 1px solid rgba(255,255,255,0.22);
+        border-radius: 14px;
+        z-index:0;
+        pointer-events:none;
+      }
+      header > *{
+        position: relative;
+        z-index: 1;
+      }
+
+      /* nav部分だけ膜をちょい濃く（他ページと揃える用） */
+      nav{
+        position: relative;
+        margin-right: 0; /* header paddingで統一 */
+      }
+      nav::before{
+        content:"";
+        position:absolute;
+        left:-8px; right:-8px; top:-6px; bottom:-6px;
+        background: rgba(255,255,255,0.58);
+        border-radius: 14px;
+        z-index:-1;
+        pointer-events:none;
+      }
+
+      /* brand側はmarginをいじらない（レイアウト破壊防止） */
+    }
+
+    /* text size auto-zoom対策（iOS） */
+    html{
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+  </style>
 </head>
 
-<body data-page="works" data-sub="artist site / works">
+<body>
   <div class="content-scrim" aria-hidden="true"></div>
 
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="name">Shu Fukuta / 福田 周</div>
-        <div class="sub">artist site / works</div>
+        <div class="name">Shu Fukuta</div>
+        <div class="sub">works</div>
       </div>
 
       <nav>
-        <a data-page="cv" href="index.html">cv</a>
-        <a data-page="works" href="works.html">works</a>
-        <a data-page="exhibitions" href="exhibitions.html">exhibitions</a>
-        <a data-page="blog" href="blog.html">blog</a>
-        <a data-page="contact" href="contact.html">contact</a>
+        <a href="index.html">cv</a>
+        <a class="active" href="works.html">works</a>
+        <a href="exhibitions.html">exhibitions</a>
+        <a href="blog.html">blog</a>
+        <a href="contact.html">contact</a>
       </nav>
     </header>
 
@@ -613,7 +702,7 @@
       <div class="in">
         <div class="topbar">
           <h1 class="title">Works</h1>
-          <p class="hint">edit: date/works.json</p>
+          <p class="hint">edit: data/works.json</p>
         </div>
 
         <div class="chips" id="chips"></div>
@@ -666,8 +755,7 @@
 
   <script>
     async function loadWorks(){
-      // ✅ ここが今回の本命修正：data → date
-      const url = "date/works.json?v=" + Date.now();
+      const url = "data/works.json?v=" + Date.now();
       const res = await fetch(url, { cache: "no-store" });
       if(!res.ok) throw new Error("Failed to load works.json: " + res.status);
       return await res.json();
@@ -705,13 +793,12 @@
         const cols = getCols();
         const gap = getGap();
         const cw = gridEl.clientWidth;
-        const colW = (cw - gap * (cols - 1)) / cols;
 
+        const colW = (cw - gap * (cols - 1)) / cols;
         const heights = new Array(cols).fill(0);
 
         items.forEach(item => {
           item.style.width = `${colW}px`;
-
           const inner = item.querySelector('.work__inner') || item;
           const h = inner.getBoundingClientRect().height;
 
@@ -766,7 +853,7 @@
       }catch(err){
         console.error(err);
         document.getElementById("grid").innerHTML =
-          '<div style="width:100%; font-family:var(--mono); color:var(--muted); padding:10px;">could not load <b>date/works.json</b></div>';
+          '<div style="width:100%; font-family:var(--mono); color:var(--muted); padding:10px;">could not load <b>data/works.json</b></div>';
         return;
       }
 
