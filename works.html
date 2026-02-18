@@ -262,26 +262,33 @@
     }
 
     /* =========================
-       ✅ Masonry: absolute layout（空欄ゼロ方式）
+       ✅ 一覧：Grid + JS masonry（空欄バグ対策込み）
        ========================= */
-    .grid{
-      position: relative;
-      width: 100%;
-      min-height: 40vh;
-    }
-    .work{
-      position: absolute;
-      left: 0;
-      top: 0;
-      will-change: transform;
-      align-self: auto;
-    }
+    /* =========================
+   ✅ Masonry: absolute layout（空欄ゼロ方式）
+   ========================= */
+.grid{
+  position: relative;
+  width: 100%;
+  /* gapは既存の --grid-gap をそのまま使う */
+  min-height: 40vh;
+}
+
+/* 子要素はJSで位置決めする */
+.work{
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+  align-self: auto; /* 念のため */
+}
 
     @media (max-width: 900px){
       :root{ --scrimTop: 168px; --grid-gap: 12px; }
       .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
+    /* ✅ スマホで読みやすく：520px以下は1列 */
     @media (max-width: 520px){
       :root{ --grid-gap: 12px; }
       .grid{ grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -298,6 +305,7 @@
       outline:none;
       cursor:pointer;
       align-self:start;
+      /* JSがgrid-row-endを付与する */
     }
 
     .work__inner{
@@ -385,7 +393,7 @@
     }
 
     /* =========================
-       ✅ Lightbox（元のまま）
+       ✅ 詳細：旧見た目 + メインだけ白壁（あなたの指定）
        ========================= */
     .lb{
       position:fixed;
@@ -429,6 +437,7 @@
       }
     }
 
+    /* ✅ ここが要点：メイン画像の後ろ＝白壁 */
     .lb__main{
       min-height:0;
       overflow:hidden;
@@ -440,6 +449,7 @@
       border-right: 1px solid rgba(255,255,255,.08);
     }
 
+    /* 切れない表示（contain） */
     .lb__main img,
     .lb__main video{
       width: 100%;
@@ -457,7 +467,9 @@
       background:#000;
       border:0;
     }
-    .lb__main video{ background:#000; }
+    .lb__main video{
+      background:#000;
+    }
 
     .lb__list{
       min-height:0;
@@ -512,6 +524,9 @@
       box-shadow: 0 0 0 2px rgba(60,92,78,.28);
     }
 
+    /* ===========================
+       ✅ Lightbox: 長文で上段が潰れる問題の修正（あなたの完璧コード）
+       =========================== */
     .lb__panel{
       grid-template-rows: minmax(280px, 1fr) minmax(180px, 34vh) !important;
     }
@@ -525,7 +540,9 @@
       overflow: auto !important;
       padding-right: 6px;
     }
-    .lb__main{ min-height: 280px !important; }
+    .lb__main{
+      min-height: 280px !important;
+    }
     .lb__main iframe{
       width: 100% !important;
       height: 100% !important;
@@ -536,9 +553,12 @@
       .lb__panel{
         grid-template-rows: minmax(240px, 1fr) minmax(180px, 42vh) !important;
       }
-      .lb__desc{ max-height: 28vh !important; }
+      .lb__desc{
+        max-height: 28vh !important;
+      }
     }
 
+    /* 下段テキスト（旧） */
     .lb__bottom{
       padding: 12px 14px 14px;
       background: rgba(12,12,13,.22);
@@ -620,62 +640,232 @@
       gap:10px;
       flex-wrap:wrap;
     }
+    /* ===== mobile: wider panel & bigger cards (minimal) ===== */
+@media (max-width: 520px){
+  /* 画面ギリギリまで（外側） */
+  .wrap{
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
 
-    /* ===== 以下：あなたの「作品いじるな」条件を守るために、モバイルヘッダーだけ最小整理 =====
-       - 下地(膜)を header全体に一回だけ
-       - navだけ濃さを上げる
-       - 端のinsetだけ付ける
-       ※ grid / work / cap / タイトル表示 / 作品CSSには触れない
-    */
-    @media (max-width: 520px){
-      :root{ --topInset: 10px; }
+  /* パネル内の左右余白を詰める（中側） */
+  .panel .in, .panel .inner, .panel .content{
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
 
-      /* header全体の膜（1回だけ） */
-      header{
-        position: relative;
-        padding-left: var(--topInset);
-        padding-right: var(--topInset);
-      }
-      header::before{
-        content:"";
-        position:absolute;
-        left:0; right:0; top:-6px; bottom:-6px;
-        background: rgba(255,255,255,0.18);
-        -webkit-backdrop-filter: blur(2px);
-        backdrop-filter: blur(2px);
-        border: 1px solid rgba(255,255,255,0.22);
-        border-radius: 14px;
-        z-index:0;
-        pointer-events:none;
-      }
-      header > *{
-        position: relative;
-        z-index: 1;
-      }
+  /* カード間の隙間を少しだけ詰める（効きが大きい） */
+  :root{ --grid-gap: 10px !important; }
+}
 
-      /* nav部分だけ膜をちょい濃く（他ページと揃える用） */
-      nav{
-        position: relative;
-        margin-right: 0; /* header paddingで統一 */
-      }
-      nav::before{
-        content:"";
-        position:absolute;
-        left:-8px; right:-8px; top:-6px; bottom:-6px;
-        background: rgba(255,255,255,0.58);
-        border-radius: 14px;
-        z-index:-1;
-        pointer-events:none;
-      }
+@media (max-width: 520px){
+  .work .meta,
+  .work .desc,
+  .work .tags{
+    display: none !important;
+  }
+}
+/* ===== mobile only: tighten gaps (NO other changes) ===== */
+@media (max-width: 520px){
 
-      /* brand側はmarginをいじらない（レイアウト破壊防止） */
+  /* ① 赤丸：左右の余白を削る（全体パネルを画面ギリギリへ） */
+  .wrap{
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+  }
+
+  /* パネル内の左右余白も詰める（効くクラスだけ適用されればOK） */
+  .panel .in,
+  .panel .inner,
+  .panel .content{
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+  }
+
+  /* ② 赤丸：列間・カード間の隙間を細く（Pinterestくらい） */
+  :root{
+    --grid-gap: 2px !important;   /* ← ここが“列間の隙間” */
+  }
+
+  /* ③ 青丸：画像とタイトルの間／タイトル周りの余白を細く */
+  .cap{
+    padding: 2px 6px 6px !important; /* 上を細くして画像⇄タイトルを詰める */
+  }
+  .cap h3{
+    margin: 0 !important;
+    font-size: 9px !important;        /* タイトル文字を小さく */
+    line-height: 1.2 !important;
+  }
+}
+/* ===== mobile only: keep top controls inset, keep grid wide ===== */
+@media (max-width: 520px){
+
+  /* 青丸：topbar / chips / sort を“内側に戻す” */
+  :root{ --inPadMob: 18px; } /* ← ここが青丸の左右余白。好みで14〜18 */
+
+  .panel > .in{
+    padding-left: var(--inPadMob) !important;
+    padding-right: var(--inPadMob) !important;
+  }
+
+  /* でも作品グリッドは今のまま“広く”見せたい → グリッドだけ外に広げる */
+  .panel > .in > .grid{
+    margin-left: calc(-1 * var(--inPadMob)) !important;
+    margin-right: calc(-1 * var(--inPadMob)) !important;
+    width: calc(100% + var(--inPadMob) + var(--inPadMob)) !important;
+
+    /* パネル端にピッタリすぎないように、極細の余白だけ残す（赤い細線くらい） */
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+  }
+
+  /* 赤丸：隙間をさらに細く（Pinterest寄せ） */
+  :root{ --grid-gap: 1px !important; } /* ← もっと細く→6px */
+
+  /* サムネ：タイトル以外を表示しない（一覧だけ） */
+  .grid .meta,
+  .grid .desc,
+  .grid .tags{
+    display: none !important;
+  }
+
+  /* 青丸：タイトル周りを詰めて、文字を小さく */
+  .cap{
+    padding: 2px 2px 2px !important;
+  }
+  .cap h3{
+    margin: 0 !important;
+    font-size: 9px !important;     /* ← 小さめ。13pxでもOK */
+    line-height: 1.2 !important;
+    font-family: var(--brand) !important;  /* 大人っぽくシンプル寄り */
+    letter-spacing: .02em !important;
+    font-weight: 500 !important;
+  }
+
+  /* タイトルの白ベタ（カード背景）を透明寄りに */
+  .work__inner{
+    background: rgba(92,104,100,.0) !important; /* ← もっと透明→.70 / もう少し白→.85 */
+  }
+}
+/* ===== mobile: tweak title position & color ===== */
+@media (max-width: 520px){
+  .grid .cap h3{
+    padding-left: 4px !important;        /* ← 右にずらす量（2〜8pxで調整） */
+    color: rgba(10,10,10,.25) !important;/* ← 薄くする（.45〜.70で調整） */
+  }
+}
+/* ===== mobile ONLY: thumbnail = image only (no title, no card panel) ===== */
+@media (max-width: 520px){
+
+  /* 一覧サムネ内のタイトル（キャプション）を消す */
+  .grid .cap,
+  .grid .cap h3{
+    display: none !important;
+  }
+
+  /* 個々の作品パネル（白カード）を無効化：背景/影/余白を消す */
+  .grid .work__inner{
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  /* 角丸を「今のサムネの角丸」引き継ぎ：画像側を優先して丸める */
+  .grid .work__thumb,
+  .grid .thumb,
+  .grid .media{
+    border-radius: inherit !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+
+  /* 画像自体も角丸維持（上のコンテナが無い場合の保険） */
+  .grid img{
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: inherit !important;
+  }
+
+  /* hover/押下の「浮き」効果を画像に付与（hover対応端末＋スマホ押下） */
+  @media (hover:hover){
+    .grid .work:hover img{
+      transform: translateY(-2px);
     }
+  }
+  .grid .work:active img{
+    transform: translateY(-1px);
+  }
+  .grid .work img{
+    transition: transform .12s ease;
+  }
+}
+/* ===== mobile only: improve nav readability without changing font/layout ===== */
+@media (max-width: 520px){
 
-    /* text size auto-zoom対策（iOS） */
-    html{
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }
+  /* ナビ全体に“薄い下地”を敷く（文字の印象はそのまま） */
+  header, .header, .nav, nav{
+    position: relative;
+  }
+
+  header::before,
+  .header::before,
+  .nav::before,
+  nav::before{
+    content: "";
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: -6px;
+    bottom: -6px;
+
+    /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
+    background: rgba(255,255,255,0.18);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+
+    /* “細めで控えめ”のまま、境界だけうっすら */
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 14px;
+
+    /* 文字の後ろに回す */
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ナビ文字・リンクを膜より前に */
+  header *,
+  .header *,
+  .nav *,
+  nav *{
+    position: relative;
+    z-index: 1;
+  }
+}
+/* ===== mobile only: nav curtain ONLY stronger (keep name curtain as-is) ===== */
+@media (max-width: 520px){
+  nav::before,
+  .nav::before,
+  .site-nav::before{
+    background: rgba(255,255,255,0.58) !important; /* ←濃さはここ */
+  }
+}
+/* ===== mobile only: slight inset for site name + top nav ===== */
+@media (max-width: 520px){
+
+  /* 端寄りを少しだけ戻す量（ここだけ触ればOK） */
+  :root{ --topInset: 10px; } /* 8〜14pxで調整 */
+
+  /* 左の名前ブロック（ロゴ/サイト名） */
+  .site-title, .brand, .logo, .site-name{
+    margin-left: var(--topInset) !important;
+  }
+
+  /* 右のナビ（cv/works/...） */
+  .site-nav, .nav, nav{
+    margin-right: var(--topInset) !important;
+  }
+}
   </style>
 </head>
 
@@ -769,82 +959,102 @@
       return Number.isFinite(n) ? n : null;
     }
 
-    function setupMasonry(gridEl){
-      const getGap = () => {
-        const g = getComputedStyle(document.documentElement).getPropertyValue('--grid-gap').trim();
-        const n = parseFloat(g);
-        return Number.isFinite(n) ? n : 16;
-      };
+    /* ===========================
+       Masonry (Grid + JS)
+       ✅ 空欄大量発生対策：各カードをResizeObserverで監視してspanを常時更新
+       =========================== */
+   /* ===========================
+   ✅ Masonry: absolute layout（Pinterest方式）
+   空欄が原理的に出ない
+   =========================== */
+function setupMasonry(gridEl){
+  const getGap = () => {
+    const g = getComputedStyle(document.documentElement).getPropertyValue('--grid-gap').trim();
+    const n = parseFloat(g);
+    return Number.isFinite(n) ? n : 16;
+  };
 
-      const getCols = () => {
-        const w = window.innerWidth;
-        if (w <= 520) return 2;
-        if (w >= 1100) return 3;
-        return 2;
-      };
+  const getCols = () => {
+    const w = window.innerWidth;
+    if (w <= 520) return 2;
+    if (w >= 1100) return 3;
+    return 2;
+  };
 
-      function layout(){
-        const items = Array.from(gridEl.querySelectorAll('.work'));
-        if(!items.length) {
-          gridEl.style.height = "0px";
-          return;
-        }
-
-        const cols = getCols();
-        const gap = getGap();
-        const cw = gridEl.clientWidth;
-
-        const colW = (cw - gap * (cols - 1)) / cols;
-        const heights = new Array(cols).fill(0);
-
-        items.forEach(item => {
-          item.style.width = `${colW}px`;
-          const inner = item.querySelector('.work__inner') || item;
-          const h = inner.getBoundingClientRect().height;
-
-          let col = 0;
-          for(let i=1;i<cols;i++){
-            if(heights[i] < heights[col]) col = i;
-          }
-
-          const x = col * (colW + gap);
-          const y = heights[col];
-
-          item.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-          heights[col] = y + h + gap;
-        });
-
-        const maxH = Math.max(...heights) - gap;
-        gridEl.style.height = `${Math.max(0, maxH)}px`;
-      }
-
-      let raf = 0;
-      function schedule(){
-        cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(layout);
-      }
-      window.addEventListener('resize', schedule, { passive:true });
-
-      function bindImages(){
-        gridEl.querySelectorAll('img').forEach(img=>{
-          if(img.complete) return;
-          img.addEventListener('load', schedule, { once:true });
-          img.addEventListener('error', schedule, { once:true });
-        });
-      }
-
-      const ro = new ResizeObserver(schedule);
-      ro.observe(gridEl);
-
-      return {
-        refresh(){
-          bindImages();
-          schedule();
-          setTimeout(schedule, 120);
-          setTimeout(schedule, 350);
-        }
-      };
+  function layout(){
+    const items = Array.from(gridEl.querySelectorAll('.work'));
+    if(!items.length) {
+      gridEl.style.height = "0px";
+      return;
     }
+
+    const cols = getCols();
+    const gap = getGap();
+    const cw = gridEl.clientWidth;
+
+    // 列幅
+    const colW = (cw - gap * (cols - 1)) / cols;
+
+    // 各列の現在の高さ
+    const heights = new Array(cols).fill(0);
+
+    // 位置決め
+    items.forEach(item => {
+      item.style.width = `${colW}px`;
+
+      // 高さ計測（innerの実寸）
+      const inner = item.querySelector('.work__inner') || item;
+      const h = inner.getBoundingClientRect().height;
+
+      // 一番低い列に置く
+      let col = 0;
+      for(let i=1;i<cols;i++){
+        if(heights[i] < heights[col]) col = i;
+      }
+
+      const x = col * (colW + gap);
+      const y = heights[col];
+
+      item.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+
+      heights[col] = y + h + gap;
+    });
+
+    const maxH = Math.max(...heights) - gap;
+    gridEl.style.height = `${Math.max(0, maxH)}px`;
+  }
+
+  // リサイズで再レイアウト
+  let raf = 0;
+  function schedule(){
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(layout);
+  }
+  window.addEventListener('resize', schedule, { passive:true });
+
+  // 画像ロードでも再レイアウト
+  function bindImages(){
+    gridEl.querySelectorAll('img').forEach(img=>{
+      if(img.complete) return;
+      img.addEventListener('load', schedule, { once:true });
+      img.addEventListener('error', schedule, { once:true });
+    });
+  }
+
+  // grid自身のサイズ変化にも追従
+  const ro = new ResizeObserver(schedule);
+  ro.observe(gridEl);
+
+  return {
+    refresh(){
+      bindImages();
+      schedule();
+      // Safari遅延保険
+      setTimeout(schedule, 120);
+      setTimeout(schedule, 350);
+    }
+  };
+}
 
     (async ()=>{
       let data;
@@ -864,6 +1074,7 @@
       const gridEl  = document.getElementById("grid");
       const masonry = setupMasonry(gridEl);
 
+      // Lightbox
       const lb = document.getElementById("lb");
       const lbMain  = document.getElementById("lbMain");
       const lbList  = document.getElementById("lbList");
@@ -874,6 +1085,7 @@
       const lbLink  = document.getElementById("lbLink");
       const lbTags  = document.getElementById("lbTags");
 
+      // tags
       const allTags = Array.from(new Set(
         works.flatMap(w => (w.tags||[]).map(t=>String(t).trim()).filter(Boolean))
       )).sort((a,b)=>a.localeCompare(b, "ja"));
@@ -932,6 +1144,7 @@
           return arr;
         }
 
+        // custom：orderがあればそれ、なければJSON順（本文や順を勝手に改変しない）
         arr.sort((a,b)=>{
           const ao = (a.order==null) ? a.__idx : Number(a.order);
           const bo = (b.order==null) ? b.__idx : Number(b.order);
@@ -1018,6 +1231,7 @@
           lbLink.textContent = "link";
         }
 
+        // 右一覧：動画があっても、必ず画像一覧を出す
         let list = [];
         if(Array.isArray(w.images) && w.images.length){
           list = w.images.slice();
@@ -1031,6 +1245,7 @@
         const hasVideo = !!((w.youtube && String(w.youtube).trim()) || (w.video && String(w.video).trim()));
         let firstBtn = null;
 
+        // VIDEOサムネ（あれば先頭）
         if(hasVideo){
           const btn = document.createElement("button");
           btn.type = "button";
@@ -1052,6 +1267,7 @@
           firstBtn = firstBtn || btn;
         }
 
+        // 画像サムネ
         list.forEach((src, idx)=>{
           const btn = document.createElement("button");
           btn.type = "button";
@@ -1073,6 +1289,7 @@
           firstBtn = firstBtn || btn;
         });
 
+        // 初期表示：動画があれば動画、なければ1枚目画像
         if(hasVideo){
           showVideoInMain(w);
           if(firstBtn) setCurrentThumb(firstBtn);
@@ -1106,6 +1323,7 @@
           card.setAttribute("role","button");
           card.setAttribute("aria-label", (w.title||"work") + " details");
 
+          // ✅ 文字もサムネも含めてパネル全体クリック
           card.addEventListener("click", ()=>openLB(w));
           card.addEventListener("keydown", (e)=>{
             if(e.key === "Enter" || e.key === " "){
