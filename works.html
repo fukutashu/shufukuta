@@ -41,8 +41,6 @@
         "Hiragino Sans","Hiragino Kaku Gothic ProN",
         "Noto Sans JP","Yu Gothic","Meiryo",sans-serif;
 
-      /* Masonry (Grid + JS) */
-      --masonry-row: 10px;
       --grid-gap: 16px;
     }
 
@@ -261,51 +259,29 @@
       box-shadow: 0 0 0 3px rgba(60,92,78,.14);
     }
 
-    /* =========================
-       ✅ 一覧：Grid + JS masonry（空欄バグ対策込み）
-       ========================= */
-    /* =========================
-       ✅ Masonry: absolute layout（空欄ゼロ方式）
-       ========================= */
+    /* ✅ Masonry: absolute layout（空欄ゼロ方式） */
     .grid{
       position: relative;
       width: 100%;
-      /* gapは既存の --grid-gap をそのまま使う */
       min-height: 40vh;
     }
-
-    /* 子要素はJSで位置決めする */
     .work{
       position: absolute;
       left: 0;
       top: 0;
       will-change: transform;
-      align-self: auto; /* 念のため */
+      outline:none;
+      cursor:pointer;
     }
 
     @media (max-width: 900px){
       :root{ --scrimTop: 168px; --grid-gap: 12px; }
-      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-
-    /* ✅ スマホで読みやすく：520px以下は1列 */
     @media (max-width: 520px){
       :root{ --grid-gap: 12px; }
-      .grid{ grid-template-columns: repeat(1, minmax(0, 1fr)); }
       .cap{ padding: 12px 14px 14px; }
       .cap h3{ font-size: 15px; }
       .desc{ font-size: 14px; }
-    }
-
-    @media (min-width: 1100px){
-      .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-
-    .work{
-      outline:none;
-      cursor:pointer;
-      align-self:start;
-      /* JSがgrid-row-endを付与する */
     }
 
     .work__inner{
@@ -392,9 +368,7 @@
       border-radius: 999px;
     }
 
-    /* =========================
-       ✅ 詳細：旧見た目 + メインだけ白壁（あなたの指定）
-       ========================= */
+    /* ===== Lightbox（あなたの見た目維持：メインだけ白壁） ===== */
     .lb{
       position:fixed;
       inset:0;
@@ -410,16 +384,14 @@
     .lb__panel{
       width:min(1160px, 100%);
       height: 92vh;
-
       background: rgba(12,12,13,.55);
       border: 1px solid rgba(255,255,255,.18);
       box-shadow: 0 18px 60px rgba(0,0,0,.45);
       border-radius: 16px;
       overflow:hidden;
       backdrop-filter: blur(6px);
-
       display:grid;
-      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-rows: minmax(280px, 1fr) minmax(180px, 34vh);
     }
 
     .lb__top{
@@ -435,11 +407,13 @@
         grid-template-columns: 1fr;
         grid-template-rows: minmax(0,1fr) auto;
       }
+      .lb__panel{
+        grid-template-rows: minmax(240px, 1fr) minmax(180px, 42vh);
+      }
     }
 
-    /* ✅ ここが要点：メイン画像の後ろ＝白壁 */
     .lb__main{
-      min-height:0;
+      min-height:280px;
       overflow:hidden;
       display:flex;
       align-items:center;
@@ -448,8 +422,6 @@
       background: rgba(255,255,255,.96);
       border-right: 1px solid rgba(255,255,255,.08);
     }
-
-    /* 切れない表示（contain） */
     .lb__main img,
     .lb__main video{
       width: 100%;
@@ -460,16 +432,14 @@
     }
     .lb__main iframe{
       width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
+      height: 100%;
       display:block;
       border-radius: 12px;
       background:#000;
       border:0;
+      min-height: 280px;
     }
-    .lb__main video{
-      background:#000;
-    }
+    .lb__main video{ background:#000; }
 
     .lb__list{
       min-height:0;
@@ -479,7 +449,6 @@
       border-left: 1px solid rgba(255,255,255,.10);
       padding: 12px;
     }
-
     @media (max-width: 900px){
       .lb__list{
         border-left: 0;
@@ -524,42 +493,10 @@
       box-shadow: 0 0 0 2px rgba(60,92,78,.28);
     }
 
-    /* ===========================
-       ✅ Lightbox: 長文で上段が潰れる問題の修正（あなたの完璧コード）
-       =========================== */
-    .lb__panel{
-      grid-template-rows: minmax(280px, 1fr) minmax(180px, 34vh) !important;
-    }
     .lb__bottom{
-      min-height: 0 !important;
-      overflow: auto !important;
+      min-height: 0;
+      overflow: auto;
       -webkit-overflow-scrolling: touch;
-    }
-    .lb__desc{
-      max-height: 24vh !important;
-      overflow: auto !important;
-      padding-right: 6px;
-    }
-    .lb__main{
-      min-height: 280px !important;
-    }
-    .lb__main iframe{
-      width: 100% !important;
-      height: 100% !important;
-      min-height: 280px !important;
-      display: block !important;
-    }
-    @media (max-width: 860px){
-      .lb__panel{
-        grid-template-rows: minmax(240px, 1fr) minmax(180px, 42vh) !important;
-      }
-      .lb__desc{
-        max-height: 28vh !important;
-      }
-    }
-
-    /* 下段テキスト（旧） */
-    .lb__bottom{
       padding: 12px 14px 14px;
       background: rgba(12,12,13,.22);
       color: rgba(255,255,255,.90);
@@ -595,6 +532,10 @@
     }
 
     .lb__desc{
+      max-height: 24vh;
+      overflow: auto;
+      padding-right: 6px;
+
       background: rgba(0,0,0,.16);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 12px;
@@ -602,6 +543,9 @@
       font-size: 13px;
       line-height: 1.85;
       white-space: pre-wrap;
+    }
+    @media (max-width: 860px){
+      .lb__desc{ max-height: 28vh; }
     }
 
     .lb__actions{
@@ -640,236 +584,13 @@
       gap:10px;
       flex-wrap:wrap;
     }
-
-    /* ===== mobile: wider panel & bigger cards (minimal) ===== */
-    @media (max-width: 520px){
-      /* 画面ギリギリまで（外側） */
-      .wrap{
-        padding-left: 6px !important;
-        padding-right: 6px !important;
-      }
-
-      /* パネル内の左右余白を詰める（中側） */
-      .panel .in, .panel .inner, .panel .content{
-        padding-left: 12px !important;
-        padding-right: 12px !important;
-      }
-
-      /* カード間の隙間を少しだけ詰める（効きが大きい） */
-      :root{ --grid-gap: 10px !important; }
-    }
-
-    @media (max-width: 520px){
-      .work .meta,
-      .work .desc,
-      .work .tags{
-        display: none !important;
-      }
-    }
-
-    /* ===== mobile only: tighten gaps (NO other changes) ===== */
-    @media (max-width: 520px){
-      .wrap{
-        padding-left: 1px !important;
-        padding-right: 1px !important;
-      }
-      .panel .in,
-      .panel .inner,
-      .panel .content{
-        padding-left: 1px !important;
-        padding-right: 1px !important;
-      }
-      :root{
-        --grid-gap: 2px !important;
-      }
-      .cap{
-        padding: 2px 6px 6px !important;
-      }
-      .cap h3{
-        margin: 0 !important;
-        font-size: 9px !important;
-        line-height: 1.2 !important;
-      }
-    }
-
-    /* ===== mobile only: keep top controls inset, keep grid wide ===== */
-    @media (max-width: 520px){
-      :root{ --inPadMob: 18px; }
-      .panel > .in{
-        padding-left: var(--inPadMob) !important;
-        padding-right: var(--inPadMob) !important;
-      }
-      .panel > .in > .grid{
-        margin-left: calc(-1 * var(--inPadMob)) !important;
-        margin-right: calc(-1 * var(--inPadMob)) !important;
-        width: calc(100% + var(--inPadMob) + var(--inPadMob)) !important;
-        padding-left: 1px !important;
-        padding-right: 1px !important;
-      }
-      :root{ --grid-gap: 1px !important; }
-      .grid .meta,
-      .grid .desc,
-      .grid .tags{
-        display: none !important;
-      }
-      .cap{
-        padding: 2px 2px 2px !important;
-      }
-      .cap h3{
-        margin: 0 !important;
-        font-size: 9px !important;
-        line-height: 1.2 !important;
-        font-family: var(--brand) !important;
-        letter-spacing: .02em !important;
-        font-weight: 500 !important;
-      }
-      .work__inner{
-        background: rgba(92,104,100,.0) !important;
-      }
-    }
-
-    /* ===== mobile: tweak title position & color ===== */
-    @media (max-width: 520px){
-      .grid .cap h3{
-        padding-left: 4px !important;
-        color: rgba(10,10,10,.25) !important;
-      }
-    }
-
-    /* ===== mobile ONLY: thumbnail = image only (no title, no card panel) ===== */
-    @media (max-width: 520px){
-      .grid .cap,
-      .grid .cap h3{
-        display: none !important;
-      }
-      .grid .work__inner{
-        background: transparent !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-      }
-      .grid .work__thumb,
-      .grid .thumb,
-      .grid .media{
-        border-radius: inherit !important;
-        overflow: hidden !important;
-        background: transparent !important;
-      }
-      .grid img{
-        display: block !important;
-        width: 100% !important;
-        height: auto !important;
-        border-radius: inherit !important;
-      }
-      @media (hover:hover){
-        .grid .work:hover img{
-          transform: translateY(-2px);
-        }
-      }
-      .grid .work:active img{
-        transform: translateY(-1px);
-      }
-      .grid .work img{
-        transition: transform .12s ease;
-      }
-    }
-
-    /* ===== mobile only: improve nav readability without changing font/layout ===== */
-    @media (max-width: 520px){
-      header, .header, .nav, nav{
-        position: relative;
-      }
-      header::before,
-      .header::before,
-      .nav::before,
-      nav::before{
-        content: "";
-        position: absolute;
-        left: -8px;
-        right: -8px;
-        top: -6px;
-        bottom: -6px;
-        background: rgba(255,255,255,0.18);
-        -webkit-backdrop-filter: blur(2px);
-        backdrop-filter: blur(2px);
-        border: 1px solid rgba(255,255,255,0.22);
-        border-radius: 14px;
-        z-index: 0;
-        pointer-events: none;
-      }
-      header *,
-      .header *,
-      .nav *,
-      nav *{
-        position: relative;
-        z-index: 1;
-      }
-    }
-
-    /* ===== mobile only: nav curtain ONLY stronger (keep name curtain as-is) ===== */
-    @media (max-width: 520px){
-      nav::before,
-      .nav::before,
-      .site-nav::before{
-        background: rgba(255,255,255,0.58) !important;
-      }
-    }
-
-    /* ===== mobile only: slight inset for site name + top nav ===== */
-    @media (max-width: 520px){
-      :root{ --topInset: 10px; }
-      .site-title, .brand, .logo, .site-name{
-        margin-left: var(--topInset) !important;
-      }
-      .site-nav, .nav, nav{
-        margin-right: var(--topInset) !important;
-      }
-    }
-
-    /* ==== header normalize (works) : これより上の重複指定を潰す ==== */
-    html{
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }
-    header{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-    .brand .name{ line-height:1.15; }
-    nav{ line-height:1.6; }
-    @media (max-width: 520px){
-      header{ padding:10px 12px; position:relative; }
-    }
-
-    /* =========================================================
-       ✅ 追加したのはここだけ：ヘッダーのブレ止めパッチ（タイトル等は触らない）
-       ========================================================= */
-    @media (max-width: 520px){
-      html{
-        -webkit-text-size-adjust: 100% !important;
-        text-size-adjust: 100% !important;
-      }
-      /* navの折り返し挙動を安定させる */
-      header nav{
-        width: 100% !important;
-        justify-content: flex-start !important;
-      }
-      header nav a{
-        white-space: nowrap !important;
-      }
-      /* 膜( ::before ) の多重生成でズレるのを抑える：header側だけに寄せる */
-      nav::before{
-        content: none !important;
-      }
-    }
   </style>
 
   <link rel="stylesheet" href="assets/common.css">
+  <script src="assets/site-nav.js" defer></script>
 </head>
 
-<body>
+<body data-page="works" data-sub="artist site / works">
   <div class="content-scrim" aria-hidden="true"></div>
 
   <div class="wrap">
@@ -880,11 +601,11 @@
       </div>
 
       <nav>
-        <a href="index.html">cv</a>
-        <a class="active" href="works.html">works</a>
-        <a href="exhibitions.html">exhibitions</a>
-        <a href="blog.html">blog</a>
-        <a href="contact.html">contact</a>
+        <a data-page="cv" href="index.html">cv</a>
+        <a data-page="works" href="works.html">works</a>
+        <a data-page="exhibitions" href="exhibitions.html">exhibitions</a>
+        <a data-page="blog" href="blog.html">blog</a>
+        <a data-page="contact" href="contact.html">contact</a>
       </nav>
     </header>
 
@@ -892,7 +613,7 @@
       <div class="in">
         <div class="topbar">
           <h1 class="title">Works</h1>
-          <p class="hint">edit: data/works.json</p>
+          <p class="hint">edit: date/works.json</p>
         </div>
 
         <div class="chips" id="chips"></div>
@@ -945,7 +666,8 @@
 
   <script>
     async function loadWorks(){
-      const url = "data/works.json?v=" + Date.now();
+      // ✅ ここが今回の本命修正：data → date
+      const url = "date/works.json?v=" + Date.now();
       const res = await fetch(url, { cache: "no-store" });
       if(!res.ok) throw new Error("Failed to load works.json: " + res.status);
       return await res.json();
@@ -959,10 +681,6 @@
       return Number.isFinite(n) ? n : null;
     }
 
-    /* ===========================
-       ✅ Masonry: absolute layout（Pinterest方式）
-       空欄が原理的に出ない
-       =========================== */
     function setupMasonry(gridEl){
       const getGap = () => {
         const g = getComputedStyle(document.documentElement).getPropertyValue('--grid-gap').trim();
@@ -987,8 +705,8 @@
         const cols = getCols();
         const gap = getGap();
         const cw = gridEl.clientWidth;
-
         const colW = (cw - gap * (cols - 1)) / cols;
+
         const heights = new Array(cols).fill(0);
 
         items.forEach(item => {
@@ -1048,7 +766,7 @@
       }catch(err){
         console.error(err);
         document.getElementById("grid").innerHTML =
-          '<div style="width:100%; font-family:var(--mono); color:var(--muted); padding:10px;">could not load <b>data/works.json</b></div>';
+          '<div style="width:100%; font-family:var(--mono); color:var(--muted); padding:10px;">could not load <b>date/works.json</b></div>';
         return;
       }
 
@@ -1197,4 +915,177 @@
         lb.setAttribute("open","");
 
         lbTitle.textContent = w.title || "";
-        lbMeta.textContent  = [w.year,
+        lbMeta.textContent  = [w.year, w.medium, w.size].filter(Boolean).join(" / ");
+        lbDesc.textContent  = w.note || w.desc || "";
+
+        (w.tags||[]).forEach(t=>{
+          const s = document.createElement("span");
+          s.className = "lb__tag";
+          s.textContent = t;
+          lbTags.appendChild(s);
+        });
+
+        if(w.link){
+          lbLink.href = w.link;
+          lbLink.style.display = "inline-flex";
+          lbLink.textContent = "link";
+        }
+
+        let list = [];
+        if(Array.isArray(w.images) && w.images.length){
+          list = w.images.slice();
+          if(w.image && !list.includes(w.image)) list.unshift(w.image);
+        }else if(w.image){
+          list = [w.image];
+        }
+
+        lbList.innerHTML = "";
+
+        const hasVideo = !!((w.youtube && String(w.youtube).trim()) || (w.video && String(w.video).trim()));
+        let firstBtn = null;
+
+        if(hasVideo){
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "lb__thumbBtn";
+
+          const im = document.createElement("img");
+          im.src = w.image || (list[0] || "");
+          im.alt = (w.title || "") + " video";
+          im.loading = "lazy";
+          im.decoding = "async";
+          btn.appendChild(im);
+
+          btn.addEventListener("click", ()=>{
+            showVideoInMain(w);
+            setCurrentThumb(btn);
+          });
+
+          lbList.appendChild(btn);
+          firstBtn = firstBtn || btn;
+        }
+
+        list.forEach((src, idx)=>{
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "lb__thumbBtn";
+
+          const im = document.createElement("img");
+          im.src = src;
+          im.alt = (w.title || "") + " " + (idx+1);
+          im.loading = "lazy";
+          im.decoding = "async";
+          btn.appendChild(im);
+
+          btn.addEventListener("click", ()=>{
+            setMainImage(src, w.title || "");
+            setCurrentThumb(btn);
+          });
+
+          lbList.appendChild(btn);
+          firstBtn = firstBtn || btn;
+        });
+
+        if(hasVideo){
+          showVideoInMain(w);
+          if(firstBtn) setCurrentThumb(firstBtn);
+        }else if(list.length){
+          setMainImage(list[0], w.title || "");
+          if(firstBtn) setCurrentThumb(firstBtn);
+        }
+
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLB(){
+        clearLB();
+        lb.removeAttribute("open");
+        document.body.style.overflow = "";
+      }
+
+      lbClose.addEventListener("click", closeLB);
+      lb.addEventListener("click", (e)=>{ if(e.target === lb) closeLB(); });
+      window.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && lb.hasAttribute("open")) closeLB(); });
+
+      function renderGrid(){
+        gridEl.innerHTML = "";
+        const filtered = works.filter(match);
+        const sorted = getSorted(filtered);
+
+        sorted.forEach((w)=>{
+          const card = document.createElement("article");
+          card.className = "work";
+          card.tabIndex = 0;
+          card.setAttribute("role","button");
+          card.setAttribute("aria-label", (w.title||"work") + " details");
+
+          card.addEventListener("click", ()=>openLB(w));
+          card.addEventListener("keydown", (e)=>{
+            if(e.key === "Enter" || e.key === " "){
+              e.preventDefault();
+              openLB(w);
+            }
+          });
+
+          const inner = document.createElement("div");
+          inner.className = "work__inner";
+
+          const thumb = document.createElement("div");
+          thumb.className = "thumb";
+
+          const img = document.createElement("img");
+          img.src = w.image;
+          img.alt = w.title || "";
+          img.loading = "lazy";
+          img.decoding = "async";
+          thumb.appendChild(img);
+
+          const cap = document.createElement("div");
+          cap.className = "cap";
+
+          const h = document.createElement("h3");
+          h.textContent = w.title || "(untitled)";
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          [w.year, w.medium, w.size].filter(Boolean).forEach(v=>{
+            const s = document.createElement("span");
+            s.textContent = v;
+            meta.appendChild(s);
+          });
+
+          const desc = document.createElement("p");
+          desc.className = "desc";
+          desc.textContent = w.desc || "";
+
+          const tagsBox = document.createElement("div");
+          tagsBox.className = "tags";
+          (w.tags||[]).forEach(t=>{
+            const tg = document.createElement("span");
+            tg.className = "tag";
+            tg.textContent = t;
+            tagsBox.appendChild(tg);
+          });
+
+          cap.appendChild(h);
+          cap.appendChild(meta);
+          if((w.desc||"").trim()) cap.appendChild(desc);
+          if((w.tags||[]).length) cap.appendChild(tagsBox);
+
+          inner.appendChild(thumb);
+          inner.appendChild(cap);
+          card.appendChild(inner);
+          gridEl.appendChild(card);
+        });
+
+        masonry.refresh();
+      }
+
+      sortSel.addEventListener("change", renderGrid);
+
+      renderChips();
+      renderGrid();
+    })();
+  </script>
+</body>
+</html>
