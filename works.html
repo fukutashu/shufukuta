@@ -7,6 +7,7 @@
   <meta name="description" content="Works — Shu Fukuta / 福田 周" />
 
   <style>
+
     :root{
       --bg:#f4f2ee;
       --text:rgba(10,10,10,.90);
@@ -640,6 +641,7 @@
       gap:10px;
       flex-wrap:wrap;
     }
+
     /* ===== mobile: wider panel & bigger cards (minimal) ===== */
 @media (max-width: 520px){
   /* 画面ギリギリまで（外側） */
@@ -800,6 +802,7 @@
     transition: transform .12s ease;
   }
 }
+
 /* ===== mobile only: improve nav readability without changing font/layout ===== */
 @media (max-width: 520px){
 
@@ -820,7 +823,7 @@
     bottom: -6px;
 
     /* 控えめなガラス感：白の薄い膜 + ほんの少しぼかし */
-    background: rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.38);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 
@@ -842,28 +845,32 @@
     z-index: 1;
   }
 }
-/* ===== mobile only: nav curtain ONLY stronger (keep name curtain as-is) ===== */
+
+/* ===== mobile: header/nav polish (match other pages) ===== */
 @media (max-width: 520px){
-  nav::before,
-  .nav::before,
-  .site-nav::before{
-    background: rgba(255,255,255,0.58) !important; /* ←濃さはここ */
+  header{
+    align-items:flex-start;
+    gap:10px;
+    padding: 14px 0 8px;
   }
-}
-/* ===== mobile only: slight inset for site name + top nav ===== */
-@media (max-width: 520px){
-
-  /* 端寄りを少しだけ戻す量（ここだけ触ればOK） */
-  :root{ --topInset: 10px; } /* 8〜14pxで調整 */
-
-  /* 左の名前ブロック（ロゴ/サイト名） */
-  .site-title, .brand, .logo, .site-name{
-    margin-left: var(--topInset) !important;
+  .brand .name{
+    font-size: 16px;
+    letter-spacing:.03em;
+  }
+  .brand .sub{
+    font-size: 11px;
+  }
+  nav{
+    gap: 8px;
+    font-size: 11px;
+  }
+  nav a:not(:last-child)::after{
+    margin-left: 8px;
   }
 
-  /* 右のナビ（cv/works/...） */
-  .site-nav, .nav, nav{
-    margin-right: var(--topInset) !important;
+  /* contactだけ改行されて飛びやすいので対策（他ページと同じ） */
+  header nav a[href*="contact"]{
+    white-space: nowrap;
   }
 }
   </style>
@@ -959,14 +966,6 @@
       return Number.isFinite(n) ? n : null;
     }
 
-    /* ===========================
-       Masonry (Grid + JS)
-       ✅ 空欄大量発生対策：各カードをResizeObserverで監視してspanを常時更新
-       =========================== */
-   /* ===========================
-   ✅ Masonry: absolute layout（Pinterest方式）
-   空欄が原理的に出ない
-   =========================== */
 function setupMasonry(gridEl){
   const getGap = () => {
     const g = getComputedStyle(document.documentElement).getPropertyValue('--grid-gap').trim();
