@@ -1,15 +1,38 @@
-{
-  "exhibitions": [
-    {
-      "start": "2026-00-00",
-      "end": "",
-      "title": "(edit me) Exhibittion title",
-      "type": "group",
-      "venue": "(venue)",
-      "city": "Tokyo",
-      "country": "Japan",
-      "note": "Write a short note if needed.",
-      "link": ""
-    }
-  ]
-}
+<section class="panel">
+  <div class="in">
+    <div class="label">exhibitions</div>
+
+    <div class="ex-list">
+
+      <!-- ===== ここから1展示ブロック（コピペして増やす） ===== -->
+      <div class="ex-item">
+
+        <img class="ex-thumb" src="img/exhibitions/training-thumb.jpg" alt="">
+
+        <div class="ex-meta">
+          <div class="ex-period">2025.12.25 –  12.29</div>
+          <div class="ex-gallery">GALLERY 33</div>
+          <div class="ex-location">東京, 日本</div>
+          <div class="ex-title">ランダム</div>
+          <div class="ex-artists">高城樹生　福田周 / 参加作家名</div>
+        </div>
+
+        <div class="ex-detail-images">
+          <img src="img/exhibitions/training-1.jpg" alt="">
+          <img src="img/exhibitions/training-2.jpg" alt="">
+        </div>
+
+        <div class="ex-statement">
+          <p>
+            ここに展示ステートメントを書く。
+            改行もそのまま表示されます。
+          </p>
+        </div>
+
+      </div>
+      <!-- ===== ここまで1展示ブロック ===== -->
+
+
+    </div>
+  </div>
+</section>
