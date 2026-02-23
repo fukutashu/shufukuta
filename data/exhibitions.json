@@ -14,7 +14,7 @@
           <div class="ex-gallery">GALLERY 33</div>
           <div class="ex-location">東京, 日本</div>
           <div class="ex-title">ランダム</div>
-          <div class="ex-artists">高城樹生　福田周 / 参加作家名</div>
+          <div class="ex-artists">高城樹生　福田周</div>
         </div>
 
         <div class="ex-detail-images">
@@ -24,8 +24,9 @@
 
         <div class="ex-statement">
           <p>
-            ここに展示ステートメントを書く。
-            改行もそのまま表示されます。
+            遠くの街へ出掛けた時
+            ここが誰かの地元だと気づく
+            そういう意味でのランダム
           </p>
         </div>
 
